@@ -1,4 +1,4 @@
-package com.anet.template
+package mg.moneytech.privatecard
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -40,7 +40,7 @@ fun ProjectName(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "AndroidProjectTemplate",
+            text = "PrivateCard",
             modifier = modifier
         )
     }

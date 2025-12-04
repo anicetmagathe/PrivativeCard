@@ -1,4 +1,4 @@
-package com.anet.template
+package mg.moneytech.privatecard
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

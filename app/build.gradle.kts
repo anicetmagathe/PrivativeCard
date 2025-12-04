@@ -8,10 +8,10 @@ plugins {
 }
 
 android {
-    namespace = "com.anet.template"
+    namespace = "mg.moneytech.privatecard"
 
     defaultConfig {
-        applicationId = "com.anet.template"
+        applicationId = "mg.moneytech.privatecard"
     }
 
     buildTypes {
