@@ -47,7 +47,7 @@ fun HomeImpl(modifier: Modifier = Modifier, state: HomeState) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Match today",
+                text = "SÉLECTIONNER UN MATCH",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
             )
 

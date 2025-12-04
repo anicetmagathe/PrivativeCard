@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +41,8 @@ fun MatchVs(modifier: Modifier = Modifier, match: Match) {
         modifier = modifier,
         onClick = {},
         border = BorderStroke(width = 1.dp, color = Color.LightGray),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black)
     ) {
         Row(
             modifier = Modifier
@@ -101,8 +103,8 @@ private fun ClubView(modifier: Modifier = Modifier, club: Club, nameFirst: Boole
                     textAlign = if (nameFirst) TextAlign.End else TextAlign.Start,
                     fontWeight = FontWeight.SemiBold
                 ),
-                minLines = 2,
-                maxLines = 2,
+                minLines = 1,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
