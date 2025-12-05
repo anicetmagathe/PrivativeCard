@@ -3,6 +3,8 @@ package core.designsystem.component
 import core.designsystem.R
 
 object PCIcons {
+    val stadium = R.drawable.stadium_map
+
     object clublogo {
         val austria_bundesliga_austria_vienna = R.drawable.austria_bundesliga_austria_vienna
         val austria_bundesliga_fc_blau_weiss_linz = R.drawable.austria_bundesliga_fc_blau_weiss_linz
