@@ -1,6 +1,7 @@
 package mg.moneytech.privatecard.navigation
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,11 +18,13 @@ fun Navigation(modifier: Modifier = Modifier, viewModel: MainViewModel = hiltVie
         viewModel.back()
     }
 
-    when (state.page) {
-        Page.Home -> MatchPickPage(modifier = modifier)
-        Page.Pick -> SectorPickPage(
-            modifier = modifier,
-            onBack = viewModel::back
-        )
+    AnimatedContent(state.page) {
+        when (it) {
+            Page.Home -> MatchPickPage(modifier = modifier)
+            Page.Pick -> SectorPickPage(
+                modifier = modifier,
+                onBack = viewModel::back
+            )
+        }
     }
 }
