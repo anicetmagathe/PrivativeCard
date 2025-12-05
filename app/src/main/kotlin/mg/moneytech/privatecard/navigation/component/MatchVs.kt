@@ -36,10 +36,10 @@ import mg.moneytech.privatecard.navigation.logoForClub
 import java.time.LocalDateTime
 
 @Composable
-fun MatchVs(modifier: Modifier = Modifier, match: Match) {
+fun MatchVs(modifier: Modifier = Modifier, match: Match, onClick: () -> Unit) {
     Card(
         modifier = modifier,
-        onClick = {},
+        onClick = onClick,
         border = BorderStroke(width = 1.dp, color = Color.LightGray),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black)
@@ -136,7 +136,8 @@ private fun MatchVsPreview() {
     AppTheme {
         MatchVs(
             modifier = Modifier.fillMaxWidth(),
-            match = DemoMatch.matchs[0]
+            match = DemoMatch.matchs[0],
+            onClick = {}
         )
     }
 }

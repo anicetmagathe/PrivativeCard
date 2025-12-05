@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,17 +29,21 @@ import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
 import core.model.entity.MainClub
 import core.ui.DevicePreviews
-import mg.moneytech.privatecard.navigation.component.MatchVs
+import mg.moneytech.privatecard.navigation.component.PickMatchView
 import mg.moneytech.privatecard.navigation.logoForClub
 
 @Composable
-fun Home(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = hiltViewModel()) {
+fun MatchPickPage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = hiltViewModel()) {
     val state by homeViewModel.state.collectAsState()
-    HomeImpl(modifier = modifier, state = state)
+    MatchPickPageImpl(modifier = modifier, state = state, onChooseMatch = homeViewModel::choose)
 }
 
 @Composable
-private fun HomeImpl(modifier: Modifier = Modifier, state: HomeState) {
+private fun MatchPickPageImpl(
+    modifier: Modifier = Modifier,
+    state: HomeState,
+    onChooseMatch: (Int) -> Unit
+) {
     Column(modifier = modifier) {
         Column(
             modifier = Modifier
@@ -54,10 +59,12 @@ private fun HomeImpl(modifier: Modifier = Modifier, state: HomeState) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-//            contentPadding = PaddingValues(8.dp)
             ) {
-                items(state.matchs) { match ->
-                    MatchVs(modifier = Modifier.fillMaxWidth(), match = match)
+                itemsIndexed(state.matchs) { index, match ->
+                    PickMatchView(
+                        modifier = Modifier.fillMaxWidth(),
+                        match = match,
+                        onClick = { onChooseMatch(index) })
                 }
             }
         }
@@ -108,11 +115,12 @@ private fun ClubViews(modifier: Modifier = Modifier, mainClubs: List<MainClub>) 
 
 @DevicePreviews
 @Composable
-private fun HomePreview() {
+private fun MatchPickPagePreview() {
     AppTheme {
-        HomeImpl(
+        MatchPickPageImpl(
             modifier = Modifier.fillMaxSize(),
-            state = HomeState(mainClubs = DemoClub.teams, matchs = DemoMatch.matchs)
+            state = HomeState(mainClubs = DemoClub.teams, matchs = DemoMatch.matchs),
+            onChooseMatch = {}
         )
     }
 }
