@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import core.data.demo.DemoCategorie
 import core.data.demo.DemoClub
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
@@ -35,7 +36,11 @@ import mg.moneytech.privatecard.navigation.logoForClub
 @Composable
 fun MatchPickPage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = hiltViewModel()) {
     val state by homeViewModel.state.collectAsState()
-    MatchPickPageImpl(modifier = modifier, state = state, onChooseMatch = homeViewModel::choose)
+    MatchPickPageImpl(
+        modifier = modifier,
+        state = state,
+        onChooseMatch = homeViewModel::chooseMatch
+    )
 }
 
 @Composable
@@ -119,7 +124,11 @@ private fun MatchPickPagePreview() {
     AppTheme {
         MatchPickPageImpl(
             modifier = Modifier.fillMaxSize(),
-            state = HomeState(mainClubs = DemoClub.teams, matchs = DemoMatch.matchs),
+            state = HomeState(
+                mainClubs = DemoClub.teams,
+                matchs = DemoMatch.matchs,
+                categories = DemoCategorie.categories
+            ),
             onChooseMatch = {}
         )
     }

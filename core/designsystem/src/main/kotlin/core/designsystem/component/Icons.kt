@@ -1,8 +1,11 @@
 package core.designsystem.component
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.East
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material.icons.outlined.West
 import core.designsystem.R
 
@@ -12,6 +15,11 @@ object PCIcons {
     val arrowLeft = Icons.Outlined.East
     val arrowRight = Icons.Outlined.West
     val info = Icons.Outlined.Info
+
+    val add = Icons.Outlined.Add
+    val remove = Icons.Outlined.Remove
+
+    val check = Icons.Outlined.CheckCircle
     val stadiumSeatView1 = R.drawable.stadium_seat_view1
     val stadiumSeatView2 = R.drawable.stadium_seat_view2
     val stadiumSeatView3 = R.drawable.stadium_seat_view3

@@ -26,8 +26,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import core.common.format
 import core.data.demo.DemoCategorie
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
@@ -68,8 +70,12 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
             )
 
             Text(
-                text = "${categorie.price} €",
-                style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.primary),
+                text = "€ ${categorie.price.format()}",
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily.Cursive
+                ),
                 maxLines = 1
             )
         }

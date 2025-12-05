@@ -24,7 +24,11 @@ import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.component.CategorieView
 
 @Composable
-fun CategoriePickView(modifier: Modifier = Modifier, categories: List<Categorie>) {
+fun CategoriePickView(
+    modifier: Modifier = Modifier,
+    categories: List<Categorie>,
+    onChooseCategorie: (Int) -> Unit
+) {
     val numberOfPlaceAvailable by remember { mutableIntStateOf(categories.sumOf { it.available }) }
 
     Column(modifier = modifier) {
@@ -52,7 +56,7 @@ fun CategoriePickView(modifier: Modifier = Modifier, categories: List<Categorie>
                 CategorieView(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {},
+                        .clickable { onChooseCategorie(index) },
                     categorie = categorie
                 )
 
@@ -68,6 +72,9 @@ fun CategoriePickView(modifier: Modifier = Modifier, categories: List<Categorie>
 @Composable
 private fun CategoriePickViewPreview() {
     AppTheme {
-        CategoriePickView(modifier = Modifier.fillMaxWidth(), categories = DemoCategorie.categories)
+        CategoriePickView(
+            modifier = Modifier.fillMaxWidth(),
+            categories = DemoCategorie.categories,
+            onChooseCategorie = {})
     }
 }
