@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import core.data.demo.DemoCategorie
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
 import core.ui.DevicePreviews
@@ -25,25 +26,26 @@ import net.engawapg.lib.zoomable.zoomable
 @Composable
 fun SectorPickPage(modifier: Modifier = Modifier) {
     val scaffoldState = rememberBottomSheetScaffoldState(
-        // Set the initial state to Collapsed or PartiallyExpanded
         bottomSheetState = rememberStandardBottomSheetState(
-            initialValue = SheetValue.PartiallyExpanded,
-            skipHiddenState = false // Optionally allow the sheet to be fully hidden
+            initialValue = SheetValue.Expanded,
+            confirmValueChange = { false },
+            skipHiddenState = true
         )
     )
 
     BottomSheetScaffold(
         modifier = modifier,
         scaffoldState = scaffoldState,
-        sheetPeekHeight = 100.dp, // The height when the sheet is collapsed
+        sheetPeekHeight = 100.dp,
         sheetContent = {
-            Text(
-                "Bottom Sheet Content - Drag me up!",
-                modifier = Modifier.padding(32.dp)
+            CategoriePickView(
+                modifier = Modifier.fillMaxWidth(),
+                categories = DemoCategorie.categories
             )
-        }
+        },
+        sheetDragHandle = null
     ) { paddingValues ->
-        SectorPickPageImpl(modifier = modifier)
+        SectorPickPageImpl(modifier = Modifier.fillMaxSize())
     }
 
 }

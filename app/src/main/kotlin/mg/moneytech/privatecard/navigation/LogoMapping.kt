@@ -6,6 +6,17 @@ fun logoForClub(clubId: Int): Int {
     return logoMapping[clubId] ?: throw RuntimeException("Unknown club id: $clubId")
 }
 
+fun logoForCategorie(categorieId: Int): Int {
+    return categorieLogoMapping[categorieId]
+        ?: throw RuntimeException("Unknown categorie id: $categorieId")
+}
+
+private val categorieLogoMapping = mapOf(
+    1 to PCIcons.stadiumSeatView1,
+    2 to PCIcons.stadiumSeatView2,
+    3 to PCIcons.stadiumSeatView3,
+)
+
 private val logoMapping = mapOf(
     1 to PCIcons.clublogo.austria_bundesliga_austria_vienna,
     2 to PCIcons.clublogo.austria_bundesliga_fc_blau_weiss_linz,

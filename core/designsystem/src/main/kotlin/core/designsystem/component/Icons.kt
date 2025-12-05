@@ -1,9 +1,16 @@
 package core.designsystem.component
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.East
 import core.designsystem.R
 
 object PCIcons {
     val stadium = R.drawable.stadium_map
+
+    val arrowLeft = Icons.Outlined.East
+    val stadiumSeatView1 = R.drawable.stadium_seat_view1
+    val stadiumSeatView2 = R.drawable.stadium_seat_view2
+    val stadiumSeatView3 = R.drawable.stadium_seat_view3
 
     object clublogo {
         val austria_bundesliga_austria_vienna = R.drawable.austria_bundesliga_austria_vienna
