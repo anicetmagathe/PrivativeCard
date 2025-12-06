@@ -29,7 +29,9 @@ enum class BuyPage {
 enum class Loading {
     Ready,
     Connecting,
-    Printing
+    Printing,
+    Success,
+    Error
 }
 
 data class Price(val count: Long, val price: Long)
@@ -177,6 +179,20 @@ class HomeViewModel @Inject constructor(
 
             printTicketUseCase(match, categorie, count).fold(
                 onSuccess = {
+                    /*_state.update {
+                        it.copy(
+                            loading = Loading.Error
+                        )
+                    }
+
+                    delay(4000)
+                    _state.update {
+                        it.copy(
+                            loading = Loading.Success
+                        )
+                    }
+                    delay(4000)*/
+
                     _state.update {
                         it.copy(
                             buyPage = BuyPage.Categorie,

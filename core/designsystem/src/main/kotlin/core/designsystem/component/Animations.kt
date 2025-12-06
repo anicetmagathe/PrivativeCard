@@ -14,4 +14,8 @@ object PCAnimations {
     val Loading = LottieCompositionSpec.RawRes(R.raw.loading_animation_v2)
     val glass = LottieCompositionSpec.RawRes(R.raw.glass_animation)
     val LoadingFootball = LottieCompositionSpec.RawRes(R.raw.animation_football_loading)
+    val CheckSuccess = LottieCompositionSpec.RawRes(R.raw.check_mark_success_animation)
+    val CheckSuccessV2 = LottieCompositionSpec.RawRes(R.raw.check_mark_success_animation_v2)
+    val CheckSuccessV3 = LottieCompositionSpec.RawRes(R.raw.check_mark_success_animation_v3)
+    val Error = LottieCompositionSpec.RawRes(R.raw.error_animation)
 }

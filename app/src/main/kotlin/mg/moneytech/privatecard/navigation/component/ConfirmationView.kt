@@ -48,6 +48,9 @@ fun ConfirmationView(
 ) {
     val printingComposition by rememberLottieComposition(PCAnimations.Printing)
     val networkComposition by rememberLottieComposition(PCAnimations.LoadingFootball)
+    val successComposition by rememberLottieComposition(PCAnimations.CheckSuccess)
+    val errorComposition by rememberLottieComposition(PCAnimations.Error)
+
     Column(modifier = modifier) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -129,6 +132,20 @@ fun ConfirmationView(
                         Loading.Printing -> {
                             PCAnimation(
                                 composition = printingComposition,
+                                modifier = Modifier.size(300.dp)
+                            )
+                        }
+
+                        Loading.Success -> {
+                            PCAnimation(
+                                composition = successComposition,
+                                modifier = Modifier.size(300.dp)
+                            )
+                        }
+
+                        Loading.Error -> {
+                            PCAnimation(
+                                composition = errorComposition,
                                 modifier = Modifier.size(300.dp)
                             )
                         }
