@@ -106,6 +106,7 @@ fun SectorPickPage(
     if (state.showConfirmation) {
         NoDismissDialog {
             ConfirmationView(
+                loading = state.loading,
                 match = state.matchs[state.selectedMatch],
                 message = buildAnnotatedString {
                     append("Confirm ")

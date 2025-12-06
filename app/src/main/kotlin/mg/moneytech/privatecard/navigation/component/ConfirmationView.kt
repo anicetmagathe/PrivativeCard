@@ -25,6 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.data.demo.DemoMatch
+import core.designsystem.component.PCAnimation
+import core.designsystem.component.PCAnimations
 import core.designsystem.theme.AppTheme
 import core.model.entity.Match
 import core.ui.DevicePreviews
@@ -35,6 +37,7 @@ fun ConfirmationView(
     modifier: Modifier = Modifier,
     match: Match,
     title: String? = null,
+    loading: Boolean = false,
     message: AnnotatedString,
     onConfirm: () -> Unit,
     onCancel: () -> Unit
@@ -55,10 +58,6 @@ fun ConfirmationView(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                title?.let {
-                    Text(text = it)
-                }
-
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     Image(
                         painter = painterResource(logoForClub(match.club1.logo)),
@@ -75,33 +74,44 @@ fun ConfirmationView(
                     )
                 }
 
-                Text(
-                    text = message,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 32.sp
+                if (loading) {
+                    PCAnimation(
+                        resource = PCAnimations.LoadingFootball,
+                        modifier = Modifier.size(300.dp)
                     )
-                )
+                } else {
+                    title?.let {
+                        Text(text = it)
+                    }
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
+                    Text(
+                        text = message,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center,
+                            lineHeight = 32.sp
+                        )
+                    )
 
-                    DefaultButton(
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        label = "CANCEL",
-                        onClick = onCancel,
-                        containerColor = Color.Yellow,
-                        contentColor = Color.Black
-                    )
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
 
-                    DefaultButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = "CONFIRM",
-                        onClick = onConfirm,
-                    )
+                        DefaultButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = "CANCEL",
+                            onClick = onCancel,
+                            containerColor = Color.Yellow,
+                            contentColor = Color.Black
+                        )
+
+                        DefaultButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = "CONFIRM",
+                            onClick = onConfirm,
+                        )
+                    }
                 }
             }
         }
@@ -130,6 +140,22 @@ private fun ConfirmationViewNoTitlePreview() {
     AppTheme {
         ConfirmationView(
             modifier = Modifier.fillMaxWidth(),
+            match = DemoMatch.matchs[0],
+            message = buildAnnotatedString {
+                append("Confirm message")
+            },
+            onConfirm = {},
+            onCancel = {})
+    }
+}
+
+@DevicePreviews
+@Composable
+private fun ConfirmationViewLoadingPreview() {
+    AppTheme {
+        ConfirmationView(
+            modifier = Modifier.fillMaxWidth(),
+            loading = true,
             match = DemoMatch.matchs[0],
             message = buildAnnotatedString {
                 append("Confirm message")

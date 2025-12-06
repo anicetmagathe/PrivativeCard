@@ -1,6 +1,7 @@
 package mg.moneytech.privatecard.navigation.page.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import core.data.demo.DemoCategorie
 import core.data.demo.DemoClub
 import core.data.demo.DemoMatch
@@ -10,9 +11,11 @@ import core.model.entity.MainClub
 import core.model.entity.Match
 import core.model.repository.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import mg.moneytech.privatecard.navigation.Page
 import mg.moneytech.privatecard.repository.CurrentPageRepository
 import javax.inject.Inject
@@ -34,7 +37,8 @@ data class HomeState(
     val seatInput: String = "",
     val priceTotal: Long = 0,
     val ready: Boolean = false,
-    val showConfirmation: Boolean = false
+    val showConfirmation: Boolean = false,
+    val loading: Boolean = false
 )
 
 @HiltViewModel
@@ -152,11 +156,25 @@ class HomeViewModel @Inject constructor(
     }
 
     fun confirm() {
-        _state.update {
-            it.copy(buyPage = BuyPage.Categorie, showConfirmation = false, ready = false)
+        viewModelScope.launch {
+            _state.update {
+                it.copy(loading = true)
+            }
+
+            delay(4000)
+
+            _state.update {
+                it.copy(
+                    buyPage = BuyPage.Categorie,
+                    showConfirmation = false,
+                    ready = false,
+                    loading = false
+                )
+            }
+
+            currentPageRepository.set(Page.Home)
         }
 
-        currentPageRepository.set(Page.Home)
     }
 
     private fun getPrice(count: Long): Long {
