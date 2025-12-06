@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -98,11 +99,11 @@ fun SeatInputView(
                     ) {
                         Text(
                             text = categorie.name,
-                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
                             text = "Sector ${categorie.sector.id}",
-                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
+                            style = MaterialTheme.typography.titleMedium.copy(color = Color.DarkGray)
                         )
                     }
                 }
@@ -146,6 +147,7 @@ fun SeatInputView(
                 ) {
                     Icon(imageVector = PCIcons.remove, contentDescription = null)
                 }
+
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     value = seatCount,
@@ -204,7 +206,9 @@ fun SeatInputView(
         }
 
         IconButton(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
             onClick = onConfirm,
             enabled = ready,
             colors = IconButtonDefaults.iconButtonColors(
@@ -212,7 +216,8 @@ fun SeatInputView(
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
                 disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
-            )
+            ),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

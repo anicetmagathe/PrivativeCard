@@ -88,7 +88,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                     ClubView(modifier = Modifier, club = match.club2)
                 }
 
-                Button(onClick = {}) {
+                Button(onClick = {}, shape = RoundedCornerShape(16.dp)) {
                     Text(text = "BUY TICKETS", style = MaterialTheme.typography.bodyLarge)
                 }
 
