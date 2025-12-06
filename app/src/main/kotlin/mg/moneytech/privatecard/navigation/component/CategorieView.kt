@@ -56,7 +56,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
                 .clip(shape = RoundedCornerShape(8.dp))
         )
 
-        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "Secteur ${categorie.sector.id}",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
@@ -65,7 +65,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
 
             Text(
                 text = categorie.name,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 maxLines = 1
             )
 
