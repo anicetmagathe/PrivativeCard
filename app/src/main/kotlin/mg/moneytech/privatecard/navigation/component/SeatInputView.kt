@@ -14,8 +14,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -101,12 +99,35 @@ fun SeatInputView(
                             style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
                         )
                     }
+
+                    Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                        Text(
+                            text = "Price unit",
+                            style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
+                        )
+
+                        Text(
+                            text = "€ ${categorie.price.format()}",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = FontFamily.Cursive
+                            )
+                        )
+                    }
+
+                    /*Text(
+                        text = "€ ${categorie.price.format()}",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = FontFamily.Cursive
+                        )
+                    )*/
                 }
 
                 HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            /*Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = "Price Unit: ",
                     style = MaterialTheme.typography.titleLarge
@@ -119,7 +140,7 @@ fun SeatInputView(
                         fontFamily = FontFamily.Cursive
                     )
                 )
-            }
+            }*/
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -143,18 +164,16 @@ fun SeatInputView(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
+                DefaultIconButton(
+                    modifier = Modifier.weight(0.3f),
+                    imageVector = PCIcons.remove,
                     onClick = onDecrementSeatCount,
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = MaterialTheme.colorScheme.onSecondary,
-                    )
-                ) {
-                    Icon(imageVector = PCIcons.remove, contentDescription = null)
-                }
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                )
 
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(0.4f),
                     value = seatCount,
                     onValueChange = onSeatCountChange,
                     shape = RoundedCornerShape(16.dp),
@@ -190,43 +209,26 @@ fun SeatInputView(
                         textAlign = TextAlign.Center,
                     )
                 )
-                IconButton(
+
+                DefaultIconButton(
+                    modifier = Modifier.weight(0.3f),
+                    imageVector = PCIcons.add,
                     onClick = onIncrementSeatCount,
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = MaterialTheme.colorScheme.onSecondary,
-                    )
-                ) {
-                    Icon(imageVector = PCIcons.add, contentDescription = null)
-                }
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                )
             }
         }
 
-
-        IconButton(
+        DefaultButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
             onClick = onConfirm,
-            enabled = ready,
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-                disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
-            ),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Icon(imageVector = PCIcons.check, contentDescription = null)
-
-                Text(text = "BOOK TICKET")
-            }
-
-        }
+            label = "BUY IT",
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+        )
     }
 }
 
