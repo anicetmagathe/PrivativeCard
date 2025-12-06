@@ -8,7 +8,8 @@ import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 
 @Suppress("EnumEntryName")
 enum class FlavorDimension {
-    type
+    type,
+    device
 }
 
 @Suppress("EnumEntryName")
@@ -18,6 +19,11 @@ enum class Flavor(
 ) {
     prod(FlavorDimension.type),
     demo(FlavorDimension.type),
+
+    apollo(FlavorDimension.device),
+    nexgo(FlavorDimension.device),
+    pax(FlavorDimension.device),
+    avd(FlavorDimension.device),
 }
 
 
@@ -26,9 +32,9 @@ fun Project.configureFlavors(
     flavorConfigurationBlock: ProductFlavor.(flavor: Flavor) -> Unit = {}
 ) {
     commonExtension.apply {
-        flavorDimensions += FlavorDimension.values().map { it.name }
+        flavorDimensions += FlavorDimension.entries.map { it.name }
         productFlavors {
-            Flavor.values().forEach { flavor ->
+            Flavor.entries.forEach { flavor ->
                 create(flavor.name) {
                     dimension = flavor.dimension.name
 

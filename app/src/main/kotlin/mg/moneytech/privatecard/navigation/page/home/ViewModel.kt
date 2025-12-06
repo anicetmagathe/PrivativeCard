@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import core.data.demo.DemoCategorie
 import core.data.demo.DemoClub
 import core.data.demo.DemoMatch
+import core.domain.PrintTicketUseCase
 import core.domain.ValidateSeatCountUseCase
 import core.model.entity.Categorie
 import core.model.entity.MainClub
@@ -25,6 +26,12 @@ enum class BuyPage {
     Count
 }
 
+enum class Loading {
+    Ready,
+    Connecting,
+    Printing
+}
+
 data class Price(val count: Long, val price: Long)
 
 data class HomeState(
@@ -38,14 +45,15 @@ data class HomeState(
     val priceTotal: Long = 0,
     val ready: Boolean = false,
     val showConfirmation: Boolean = false,
-    val loading: Boolean = false
+    val loading: Loading = Loading.Ready
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val matchRepository: MatchRepository,
     private val currentPageRepository: CurrentPageRepository,
-    private val validateSeatCount: ValidateSeatCountUseCase
+    private val validateSeatCount: ValidateSeatCountUseCase,
+    private val printTicketUseCase: PrintTicketUseCase
 ) : ViewModel() {
     private val _state =
         MutableStateFlow(
@@ -158,19 +166,34 @@ class HomeViewModel @Inject constructor(
     fun confirm() {
         viewModelScope.launch {
             _state.update {
-                it.copy(loading = true)
+                it.copy(loading = Loading.Printing)
             }
 
-            delay(4000)
+            val match = state.value.matchs[state.value.selectedMatch]
+            val categorie = state.value.categories[state.value.selectedCategorie]
+            val count = state.value.seatInput.toLong()
+            val price = count * categorie.price
 
-            _state.update {
-                it.copy(
-                    buyPage = BuyPage.Categorie,
-                    showConfirmation = false,
-                    ready = false,
-                    loading = false
-                )
-            }
+
+            printTicketUseCase(match, categorie, count).fold(
+                onSuccess = {
+                    _state.update {
+                        it.copy(
+                            buyPage = BuyPage.Categorie,
+                            showConfirmation = false,
+                            ready = false,
+                            loading = Loading.Ready
+                        )
+                    }
+                },
+                onFailure = {
+                    _state.update {
+                        it.copy(
+                            loading = Loading.Ready
+                        )
+                    }
+                }
+            )
 
             currentPageRepository.set(Page.Home)
         }

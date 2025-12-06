@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.Packaging
 import mg.anet.template.VersionInfo
 
 plugins {
@@ -28,6 +29,8 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+
+        jniLibs.useLegacyPackaging = true
     }
 }
 
@@ -50,4 +53,9 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.coil.kt.compose)
     implementation(libs.zoomable)
+
+    paxImplementation(projects.device.provider.pax)
+    avdImplementation(projects.device.provider.avd)
+    apolloImplementation(projects.device.provider.apollo)
+    nexgoImplementation(projects.device.provider.nexgo)
 }

@@ -4,8 +4,9 @@ plugins {
 }
 
 android {
-    namespace = "core.device.avd"
+    namespace = "mg.anet.dll.device.model"
 }
 
 dependencies {
+
 }

@@ -14,5 +14,5 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.material.icons.extended.android)
-    implementation(libs.lottie)
+    api(libs.lottie)
 }

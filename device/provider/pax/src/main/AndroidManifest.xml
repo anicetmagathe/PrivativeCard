@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="mg.anet.dll.device">
+
+    <uses-permission android:name="com.pax.permission.PRINTER" />
+    <uses-permission android:name="com.pax.permission.ICC" />
+    <uses-permission android:name="com.pax.permission.PICC" />
+    <uses-permission android:name="com.pax.permission.MAGCARD" />
+
+</manifest>

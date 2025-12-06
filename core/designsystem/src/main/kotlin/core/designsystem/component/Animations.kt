@@ -13,5 +13,5 @@ object PCAnimations {
     val RemoveMagneticCard = LottieCompositionSpec.RawRes(R.raw.insert_card_hand_animation_v2)
     val Loading = LottieCompositionSpec.RawRes(R.raw.loading_animation_v2)
     val glass = LottieCompositionSpec.RawRes(R.raw.glass_animation)
-    val LoadingFootball = R.raw.animation_football_loading
+    val LoadingFootball = LottieCompositionSpec.RawRes(R.raw.animation_football_loading)
 }
