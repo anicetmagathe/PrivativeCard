@@ -51,6 +51,13 @@ fun SeatInputView(
     onConfirm: () -> Unit,
     onBack: () -> Unit
 ) {
+    val priceStyle = MaterialTheme.typography.titleLarge.copy(
+        fontSize = 35.sp,
+        color = MaterialTheme.colorScheme.primary,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.Cursive
+    )
+
     val priceFinal by remember(
         categorie,
         seatCount
@@ -69,7 +76,8 @@ fun SeatInputView(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Card(
                         onClick = onBack,
@@ -86,23 +94,37 @@ fun SeatInputView(
 
                     Column(
                         modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.Start
                     ) {
                         Text(
-                            text = "${categorie.name} (Sector ${categorie.sector.id})",
-                            style = MaterialTheme.typography.titleLarge.copy()
+                            text = categorie.name,
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
-                            text = "€ ${categorie.price.format()}",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = FontFamily.Cursive
-                            )
+                            text = "Sector ${categorie.sector.id}",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
                         )
                     }
                 }
 
                 HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Price Unit: ",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                )
+
+                Text(
+                    text = "€ ${categorie.price.format()}",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = FontFamily.Cursive
+                    )
+                )
             }
 
 
@@ -173,15 +195,13 @@ fun SeatInputView(
             }
         }
 
-        Text(
-            text = "€ ${priceFinal.format()}",
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontSize = 35.sp,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Cursive
-            )
-        )
+
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "$ ", style = priceStyle)
+
+            AnimatedCounter(counter = priceFinal, style = priceStyle)
+        }
 
         IconButton(
             modifier = Modifier.fillMaxWidth(),

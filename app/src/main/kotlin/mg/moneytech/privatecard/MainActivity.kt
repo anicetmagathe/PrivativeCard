@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
                         Navigation(
-                            modifier = Modifier.padding(innerPadding)
+                            modifier = Modifier.fillMaxSize(),
+                            innerPadding = innerPadding
                         )
                     }
                 }

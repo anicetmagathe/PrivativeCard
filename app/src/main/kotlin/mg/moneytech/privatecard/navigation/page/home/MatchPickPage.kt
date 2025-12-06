@@ -34,10 +34,15 @@ import mg.moneytech.privatecard.navigation.component.PickMatchView
 import mg.moneytech.privatecard.navigation.logoForClub
 
 @Composable
-fun MatchPickPage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = hiltViewModel()) {
+fun MatchPickPage(
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
     val state by homeViewModel.state.collectAsState()
     MatchPickPageImpl(
         modifier = modifier,
+        innerPadding = innerPadding,
         state = state,
         onChooseMatch = homeViewModel::chooseMatch
     )
@@ -46,10 +51,16 @@ fun MatchPickPage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = 
 @Composable
 private fun MatchPickPageImpl(
     modifier: Modifier = Modifier,
+    innerPadding: PaddingValues = PaddingValues(),
     state: HomeState,
     onChooseMatch: (Int) -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.padding(
+            top = innerPadding.calculateTopPadding(),
+            bottom = innerPadding.calculateBottomPadding()
+        )
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

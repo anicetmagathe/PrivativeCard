@@ -3,6 +3,7 @@ package mg.moneytech.privatecard.navigation.page.home
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,13 +29,12 @@ import core.model.entity.Match
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.component.PickedMatchHeaderView
 import mg.moneytech.privatecard.navigation.component.SeatInputView
-import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.zoomable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SectorPickPage(
     modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
     viewModel: HomeViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
@@ -49,12 +49,14 @@ fun SectorPickPage(
     )
 
     BottomSheetScaffold(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = innerPadding.calculateBottomPadding()),
         scaffoldState = scaffoldState,
         sheetPeekHeight = 100.dp,
         sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
         sheetContent = {
-            AnimatedContent(state.buyPage) {
+            AnimatedContent(
+                targetState = state.buyPage,
+            ) {
                 when (it) {
                     BuyPage.Categorie -> {
                         CategoriePickView(
@@ -84,6 +86,7 @@ fun SectorPickPage(
     ) { paddingValues ->
         PickPage(
             modifier = Modifier.fillMaxSize(),
+            innerPadding = innerPadding,
             match = state.matchs[state.selectedMatch],
             onBack = onBack
         )
@@ -92,8 +95,13 @@ fun SectorPickPage(
 }
 
 @Composable
-fun PickPage(modifier: Modifier = Modifier, match: Match, onBack: () -> Unit) {
-    Box(modifier = modifier) {
+fun PickPage(
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    match: Match,
+    onBack: () -> Unit
+) {
+    Box(modifier = modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
         Image(
             painter = painterResource(PCIcons.stadium),
             contentDescription = null,
@@ -101,36 +109,25 @@ fun PickPage(modifier: Modifier = Modifier, match: Match, onBack: () -> Unit) {
             modifier = Modifier.fillMaxHeight()
         )
 
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(top = innerPadding.calculateTopPadding() + 8.dp, start = 8.dp, end = 8.dp)
         ) {
             PickedMatchHeaderView(match = match, onBack = onBack)
         }
     }
 }
 
-
-@Composable
-private fun SectorPickPageImpl(modifier: Modifier = Modifier) {
-    val painter = painterResource(id = PCIcons.stadium)
-    val zoomState = rememberZoomState(contentSize = painter.intrinsicSize)
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .fillMaxWidth()
-            .zoomable(zoomState),
-        contentScale = ContentScale.FillHeight
-    )
-}
-
-
 @DevicePreviews
 @Composable
 private fun PickPagePreview() {
     AppTheme {
-        PickPage(modifier = Modifier.fillMaxSize(), match = DemoMatch.matchs[0], onBack = {})
+        PickPage(
+            modifier = Modifier.fillMaxSize(),
+            innerPadding = PaddingValues(),
+            match = DemoMatch.matchs[0],
+            onBack = {})
     }
 }
