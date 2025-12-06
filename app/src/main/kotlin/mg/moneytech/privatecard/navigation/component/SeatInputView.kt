@@ -46,7 +46,7 @@ fun SeatInputView(
         fontSize = 35.sp,
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily.Cursive
+        fontFamily = FontFamily.Serif
     )
 
     Column(
@@ -107,7 +107,7 @@ fun SeatInputView(
                             text = "${categorie.price.format()} €",
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = FontFamily.Cursive
+                                fontFamily = FontFamily.Serif
                             )
                         )
                     }

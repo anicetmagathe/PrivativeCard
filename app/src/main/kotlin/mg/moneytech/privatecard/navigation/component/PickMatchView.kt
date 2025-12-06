@@ -1,6 +1,5 @@
 package mg.moneytech.privatecard.navigation.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,8 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.common.format
@@ -33,10 +29,8 @@ import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
 import core.model.entity.Club
 import core.model.entity.Match
-import core.model.entity.Stadium
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.logoForClub
-import java.time.LocalDateTime
 
 @Composable
 fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Unit) {
@@ -51,7 +45,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(horizontal = 8.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(

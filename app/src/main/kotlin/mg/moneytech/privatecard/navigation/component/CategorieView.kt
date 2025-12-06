@@ -43,7 +43,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
 
     Row(
         modifier = modifier.padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -77,7 +77,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold,
-                    fontFamily = FontFamily.Cursive
+                    fontFamily = FontFamily.Serif
                 ),
                 maxLines = 1
             )

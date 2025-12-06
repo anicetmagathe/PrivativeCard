@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.designsystem.theme.AppTheme
@@ -38,7 +39,9 @@ fun DefaultButton(
         ) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
+                style = MaterialTheme.typography.titleLarge.copy(/*fontWeight = FontWeight.SemiBold*/
+                    fontFamily = FontFamily.Serif
+                )
             )
         }
     }

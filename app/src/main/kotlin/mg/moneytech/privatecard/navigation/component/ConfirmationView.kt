@@ -86,68 +86,73 @@ fun ConfirmationView(
                 }
 
                 AnimatedContent(loading) { loading ->
-                    when (loading) {
-                        Loading.Ready -> {
-                            title?.let {
-                                Text(text = it)
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        when (loading) {
+                            Loading.Ready -> {
+                                title?.let {
+                                    Text(text = it)
+                                }
+
+                                Text(
+                                    text = message,
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        fontSize = 24.sp,
+                                        textAlign = TextAlign.Center,
+                                        lineHeight = 32.sp
+                                    )
+                                )
+
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+
+                                    DefaultButton(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        label = "CANCEL",
+                                        onClick = onCancel,
+                                        containerColor = Color.Yellow.copy(alpha = 0.6f),
+                                        contentColor = Color.Black
+                                    )
+
+                                    DefaultButton(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        label = "CONFIRM",
+                                        onClick = onConfirm,
+                                    )
+                                }
                             }
 
-                            Text(
-                                text = message,
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontSize = 24.sp,
-                                    textAlign = TextAlign.Center,
-                                    lineHeight = 32.sp
-                                )
-                            )
-
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalArrangement = Arrangement.spacedBy(16.dp)
-                            ) {
-
-                                DefaultButton(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    label = "CANCEL",
-                                    onClick = onCancel,
-                                    containerColor = Color.Yellow,
-                                    contentColor = Color.Black
-                                )
-
-                                DefaultButton(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    label = "CONFIRM",
-                                    onClick = onConfirm,
+                            Loading.Connecting -> {
+                                PCAnimation(
+                                    composition = networkComposition,
+                                    modifier = Modifier.size(300.dp)
                                 )
                             }
-                        }
 
-                        Loading.Connecting -> {
-                            PCAnimation(
-                                composition = networkComposition,
-                                modifier = Modifier.size(300.dp)
-                            )
-                        }
+                            Loading.Printing -> {
+                                PCAnimation(
+                                    composition = printingComposition,
+                                    modifier = Modifier.size(300.dp)
+                                )
+                            }
 
-                        Loading.Printing -> {
-                            PCAnimation(
-                                composition = printingComposition,
-                                modifier = Modifier.size(300.dp)
-                            )
-                        }
+                            Loading.Success -> {
+                                PCAnimation(
+                                    composition = successComposition,
+                                    modifier = Modifier.size(300.dp)
+                                )
+                            }
 
-                        Loading.Success -> {
-                            PCAnimation(
-                                composition = successComposition,
-                                modifier = Modifier.size(300.dp)
-                            )
-                        }
-
-                        Loading.Error -> {
-                            PCAnimation(
-                                composition = errorComposition,
-                                modifier = Modifier.size(300.dp)
-                            )
+                            Loading.Error -> {
+                                PCAnimation(
+                                    composition = errorComposition,
+                                    modifier = Modifier.size(300.dp)
+                                )
+                            }
                         }
                     }
                 }

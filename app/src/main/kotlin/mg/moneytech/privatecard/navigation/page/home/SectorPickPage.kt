@@ -114,7 +114,8 @@ fun SectorPickPage(
                     withStyle(
                         SpanStyle(
                             color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = FontFamily.Serif
                         )
                     ) {
                         append("${state.seatInput.toLong()}")
@@ -133,7 +134,7 @@ fun SectorPickPage(
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 30.sp,
-                            fontFamily = FontFamily.Cursive
+                            fontFamily = FontFamily.Serif
                         )
                     ) {
                         append("${state.priceTotal.format()} €")
