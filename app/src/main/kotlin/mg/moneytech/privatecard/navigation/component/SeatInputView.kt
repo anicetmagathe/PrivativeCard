@@ -8,14 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,9 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.common.format
@@ -158,66 +152,16 @@ fun SeatInputView(
                 }
             }
 
-
-            Row(
-                modifier = Modifier,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                DefaultIconButton(
-                    modifier = Modifier.weight(0.3f),
-                    imageVector = PCIcons.remove,
-                    onClick = onDecrementSeatCount,
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                )
-
-                OutlinedTextField(
-                    modifier = Modifier.weight(0.4f),
-                    value = seatCount,
-                    onValueChange = onSeatCountChange,
-                    shape = RoundedCornerShape(16.dp),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
-                    ),
-                    trailingIcon = {
-                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            Text(
-                                text = "/ ${categorie.available}",
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                        }
-                    },
-                    placeholder = {
-                        /*Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Count",
-                                style = MaterialTheme.typography.titleLarge.copy(
-                                    fontWeight = FontWeight.Normal,
-                                )
-                            )
-                        }*/
-                    },
-                    singleLine = true,
-                    textStyle = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                    )
-                )
-
-                DefaultIconButton(
-                    modifier = Modifier.weight(0.3f),
-                    imageVector = PCIcons.add,
-                    onClick = onIncrementSeatCount,
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                )
-            }
+            IncrementDecrementView(
+                modifier = Modifier.fillMaxWidth(),
+                value = seatCount,
+                onValueChange = onSeatCountChange,
+                onIncrement = onIncrementSeatCount,
+                onDecrement = onDecrementSeatCount,
+                trailingValue = "${categorie.available}",
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
+            )
         }
 
         DefaultButton(
