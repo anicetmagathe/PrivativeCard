@@ -121,9 +121,21 @@ fun SeatInputView(
                 )
             }
 
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Total Price: ",
+                    style = MaterialTheme.typography.titleLarge,
+                )
 
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = "€ ", style = priceStyle, modifier = Modifier.alignByBaseline())
 
-
+                    AnimatedCounter(
+                        counter = priceTotal,
+                        style = priceStyle
+                    )
+                }
+            }
 
 
             Row(
@@ -189,25 +201,6 @@ fun SeatInputView(
                 }
             }
         }
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = "Total Price: ",
-                style = MaterialTheme.typography.titleLarge,
-            )
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "€ ", style = priceStyle, modifier = Modifier.alignByBaseline())
-
-                AnimatedCounter(
-                    counter = priceTotal,
-                    style = priceStyle
-                )
-            }
-        }
-
-
-
 
 
         IconButton(
