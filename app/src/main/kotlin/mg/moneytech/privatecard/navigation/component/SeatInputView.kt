@@ -51,7 +51,7 @@ fun SeatInputView(
 
     Column(
         modifier = modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
@@ -94,7 +94,10 @@ fun SeatInputView(
                         )
                     }
 
-                    Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(0.dp),
+                        horizontalAlignment = Alignment.End
+                    ) {
                         Text(
                             text = "Price unit",
                             style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
@@ -120,21 +123,6 @@ fun SeatInputView(
 
                 HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
             }
-
-            /*Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = "Price Unit: ",
-                    style = MaterialTheme.typography.titleLarge
-                )
-
-                Text(
-                    text = "€ ${categorie.price.format()}",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = FontFamily.Cursive
-                    )
-                )
-            }*/
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
