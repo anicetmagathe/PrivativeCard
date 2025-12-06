@@ -77,6 +77,8 @@ class PrintTicketUseCase @Inject constructor(
                 .addText("COUNT", false)
                 .setAlign(Paint.Align.RIGHT)
                 .addText("x $count")
+                .setAlign(Paint.Align.LEFT)
+                .addText("============================================", false)
                 .addParagraph()
                 .setAlign(Paint.Align.LEFT)
                 .setTypeface(context, "fonts/roboto_bold.ttf")
