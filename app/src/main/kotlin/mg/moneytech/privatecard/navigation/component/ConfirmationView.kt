@@ -13,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.designsystem.theme.AppTheme
@@ -22,7 +25,7 @@ import core.ui.DevicePreviews
 fun ConfirmationView(
     modifier: Modifier = Modifier,
     title: String? = null,
-    message: String,
+    message: AnnotatedString,
     onConfirm: () -> Unit,
     onCancel: () -> Unit
 ) {
@@ -38,7 +41,7 @@ fun ConfirmationView(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(horizontal = 16.dp, vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -48,17 +51,21 @@ fun ConfirmationView(
 
                 Text(
                     text = message,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 28.sp)
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 32.sp
+                    )
                 )
 
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
 
                     DefaultButton(
                         modifier = Modifier.fillMaxWidth(),
-                        label = "Cancel",
+                        label = "CANCEL",
                         onClick = onCancel,
                         containerColor = Color.Yellow,
                         contentColor = Color.Black
@@ -66,7 +73,7 @@ fun ConfirmationView(
 
                     DefaultButton(
                         modifier = Modifier.fillMaxWidth(),
-                        label = "Confirm",
+                        label = "CONFIRM",
                         onClick = onConfirm,
                     )
                 }
@@ -82,7 +89,9 @@ private fun ConfirmationViewPreview() {
         ConfirmationView(
             modifier = Modifier.fillMaxWidth(),
             title = "Title",
-            message = "Confirm message",
+            message = buildAnnotatedString {
+                append("Confirm message")
+            },
             onConfirm = {},
             onCancel = {})
     }
@@ -94,7 +103,9 @@ private fun ConfirmationViewNoTitlePreview() {
     AppTheme {
         ConfirmationView(
             modifier = Modifier.fillMaxWidth(),
-            message = "Confirm message",
+            message = buildAnnotatedString {
+                append("Confirm message")
+            },
             onConfirm = {},
             onCancel = {})
     }

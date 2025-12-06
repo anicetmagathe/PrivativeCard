@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
                         val seatInput = value.toLong()
                         val availableSeat =
                             state.value.categories[state.value.selectedCategorie].available
-                        val ready = seatInput < availableSeat
+                        val ready = seatInput <= availableSeat
                         val seatCount = if (ready) seatInput else state.value.seatInput.toLong()
 
                         _state.update {

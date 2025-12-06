@@ -99,26 +99,18 @@ fun SeatInputView(
                         horizontalAlignment = Alignment.End
                     ) {
                         Text(
-                            text = "Price unit",
+                            text = "Unit price",
                             style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
                         )
 
                         Text(
-                            text = "€ ${categorie.price.format()}",
+                            text = "${categorie.price.format()} €",
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = FontFamily.Cursive
                             )
                         )
                     }
-
-                    /*Text(
-                        text = "€ ${categorie.price.format()}",
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = FontFamily.Cursive
-                        )
-                    )*/
                 }
 
                 HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
@@ -126,17 +118,21 @@ fun SeatInputView(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Total Price: ",
+                    text = "Total Price  ",
                     style = MaterialTheme.typography.titleLarge,
                 )
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "€ ", style = priceStyle, modifier = Modifier.alignByBaseline())
-
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     AnimatedCounter(
                         counter = priceTotal,
                         style = priceStyle
                     )
+
+                    Text(text = " €", style = priceStyle)
                 }
             }
 

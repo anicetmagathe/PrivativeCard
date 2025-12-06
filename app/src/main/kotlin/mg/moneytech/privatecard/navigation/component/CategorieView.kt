@@ -73,7 +73,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
 
 
             Text(
-                text = "€ ${categorie.price.format()}",
+                text = "${categorie.price.format()} €",
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold,

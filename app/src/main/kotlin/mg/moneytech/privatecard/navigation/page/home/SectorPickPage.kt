@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
@@ -20,7 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import core.common.format
 import core.data.demo.DemoMatch
@@ -99,7 +106,39 @@ fun SectorPickPage(
     if (state.showConfirmation) {
         NoDismissDialog {
             ConfirmationView(
-                message = "Confirm € ${state.priceTotal.format()} ?",
+                message = buildAnnotatedString {
+                    append("Confirm ")
+
+                    withStyle(
+                        SpanStyle(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    ) {
+                        append("${state.seatInput.toLong()}")
+                    }
+
+                    append(" seats of ")
+
+                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                        append(state.categories[state.selectedCategorie].name)
+                    }
+
+                    append(" for ")
+
+                    withStyle(
+                        SpanStyle(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 30.sp,
+                            fontFamily = FontFamily.Cursive
+                        )
+                    ) {
+                        append("${state.priceTotal.format()} €")
+                    }
+
+                    append(" ?")
+                },
                 onConfirm = viewModel::confirm,
                 onCancel = viewModel::cancel
             )
