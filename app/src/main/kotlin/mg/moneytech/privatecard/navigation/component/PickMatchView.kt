@@ -44,7 +44,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
         modifier = modifier,
         onClick = onClick,
 //        border = BorderStroke(width = 1.dp, color = Color.LightGray),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {

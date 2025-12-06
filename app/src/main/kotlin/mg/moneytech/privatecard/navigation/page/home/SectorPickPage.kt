@@ -22,11 +22,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import core.common.format
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
 import core.model.entity.Match
 import core.ui.DevicePreviews
+import mg.moneytech.privatecard.navigation.component.ConfirmationView
+import mg.moneytech.privatecard.navigation.component.NoDismissDialog
 import mg.moneytech.privatecard.navigation.component.PickedMatchHeaderView
 import mg.moneytech.privatecard.navigation.component.SeatInputView
 
@@ -71,11 +74,12 @@ fun SectorPickPage(
                             modifier = Modifier.fillMaxWidth(),
                             categorie = state.categories[state.selectedCategorie],
                             seatCount = state.seatInput,
+                            priceTotal = state.priceTotal,
                             ready = state.ready,
                             onSeatCountChange = viewModel::updateSeatInput,
                             onIncrementSeatCount = viewModel::incrementSeatInput,
                             onDecrementSeatCount = viewModel::decrementSeatInput,
-                            onConfirm = viewModel::confirm,
+                            onConfirm = viewModel::showConfirm,
                             onBack = viewModel::back
                         )
                     }
@@ -83,7 +87,7 @@ fun SectorPickPage(
             }
         },
         sheetDragHandle = null
-    ) { paddingValues ->
+    ) { _ ->
         PickPage(
             modifier = Modifier.fillMaxSize(),
             innerPadding = innerPadding,
@@ -92,6 +96,15 @@ fun SectorPickPage(
         )
     }
 
+    if (state.showConfirmation) {
+        NoDismissDialog {
+            ConfirmationView(
+                message = "Confirm € ${state.priceTotal.format()} ?",
+                onConfirm = viewModel::confirm,
+                onCancel = viewModel::cancel
+            )
+        }
+    }
 }
 
 @Composable

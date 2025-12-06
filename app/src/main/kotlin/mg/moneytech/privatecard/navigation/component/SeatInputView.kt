@@ -20,9 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +42,7 @@ fun SeatInputView(
     modifier: Modifier = Modifier,
     categorie: Categorie,
     seatCount: String,
+    priceTotal: Long,
     ready: Boolean,
     onSeatCountChange: (String) -> Unit,
     onIncrementSeatCount: () -> Unit,
@@ -59,10 +57,6 @@ fun SeatInputView(
         fontFamily = FontFamily.Cursive
     )
 
-    val priceFinal by remember(
-        categorie,
-        seatCount
-    ) { mutableLongStateOf(categorie.price * (seatCount.toIntOrNull() ?: 0)) }
     Column(
         modifier = modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -78,7 +72,8 @@ fun SeatInputView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Card(
                         onClick = onBack,
@@ -99,11 +94,11 @@ fun SeatInputView(
                     ) {
                         Text(
                             text = categorie.name,
-                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
                             text = "Sector ${categorie.sector.id}",
-                            style = MaterialTheme.typography.titleMedium.copy(color = Color.DarkGray)
+                            style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
                         )
                     }
                 }
@@ -114,9 +109,7 @@ fun SeatInputView(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = "Price Unit: ",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
@@ -197,13 +190,25 @@ fun SeatInputView(
             }
         }
 
-
-
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "$ ", style = priceStyle)
+            Text(
+                text = "Total Price: ",
+                style = MaterialTheme.typography.titleLarge,
+            )
 
-            AnimatedCounter(counter = priceFinal, style = priceStyle)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "€ ", style = priceStyle, modifier = Modifier.alignByBaseline())
+
+                AnimatedCounter(
+                    counter = priceTotal,
+                    style = priceStyle
+                )
+            }
         }
+
+
+
+
 
         IconButton(
             modifier = Modifier
@@ -240,6 +245,7 @@ private fun SeatInputViewPreview() {
             modifier = Modifier.fillMaxWidth(),
             categorie = DemoCategorie.categories[0],
             seatCount = "",
+            priceTotal = 12000,
             ready = true,
             onSeatCountChange = {},
             onIncrementSeatCount = {},
@@ -258,6 +264,7 @@ private fun SeatInputViewNotReadyPreview() {
             modifier = Modifier.fillMaxWidth(),
             categorie = DemoCategorie.categories[0],
             seatCount = "",
+            priceTotal = 12000,
             ready = false,
             onSeatCountChange = {},
             onIncrementSeatCount = {},

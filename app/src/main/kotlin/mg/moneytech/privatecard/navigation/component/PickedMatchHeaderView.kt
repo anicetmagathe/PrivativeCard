@@ -70,7 +70,7 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                 ) {
                     Text(
                         text = match.date.format("EEE, MMM dd / HH:mm"),
-                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Normal)
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
                     )
 
                 }

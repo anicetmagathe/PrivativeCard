@@ -22,6 +22,8 @@ enum class BuyPage {
     Count
 }
 
+data class Price(val count: Long, val price: Long)
+
 data class HomeState(
     val mainClubs: List<MainClub>,
     val matchs: List<Match>,
@@ -30,7 +32,9 @@ data class HomeState(
     val selectedCategorie: Int = -1,
     val buyPage: BuyPage = BuyPage.Categorie,
     val seatInput: String = "",
-    val ready: Boolean = false
+    val priceTotal: Long = 0,
+    val ready: Boolean = false,
+    val showConfirmation: Boolean = false
 )
 
 @HiltViewModel
@@ -54,20 +58,23 @@ class HomeViewModel @Inject constructor(
             onSuccess = {
                 validateSeatCount(value).fold(
                     onSuccess = {
-                        val seatInput = value.toInt()
+                        val seatInput = value.toLong()
                         val availableSeat =
                             state.value.categories[state.value.selectedCategorie].available
                         val ready = seatInput < availableSeat
+                        val seatCount = if (ready) seatInput else state.value.seatInput.toLong()
+
                         _state.update {
                             it.copy(
-                                seatInput = if (ready) "$seatInput" else it.seatInput,
-                                ready = ready
+                                seatInput = "$seatCount",
+                                ready = ready,
+                                priceTotal = getPrice(seatCount)
                             )
                         }
                     },
                     onFailure = {
                         _state.update {
-                            it.copy(seatInput = value, ready = false)
+                            it.copy(seatInput = value, ready = false, priceTotal = 0)
                         }
                     }
                 )
@@ -79,35 +86,48 @@ class HomeViewModel @Inject constructor(
 
     fun chooseMatch(index: Int) {
         _state.update {
-            it.copy(selectedMatch = index, buyPage = BuyPage.Categorie)
+            it.copy(
+                selectedMatch = index,
+                buyPage = BuyPage.Categorie,
+            )
         }
         currentPageRepository.set(Page.Pick)
     }
 
     fun incrementSeatInput() {
         _state.update {
-            it.copy(seatInput = if (it.seatInput.isEmpty()) "1" else "${it.seatInput.toInt() + 1}")
+            val seatCount = if (it.seatInput.isEmpty()) 0 else it.seatInput.toLong() + 1
+
+            it.copy(
+                seatInput = "$seatCount",
+                priceTotal = getPrice(seatCount)
+            )
         }
     }
 
     fun decrementSeatInput() {
         _state.update {
+            val seatCount =
+                if (it.seatInput.isEmpty()) 0 else (it.seatInput.toLong() - 1).coerceAtLeast(
+                    1
+                )
+
             it.copy(
-                seatInput = if (it.seatInput.isEmpty()) "0" else "${
-                    (it.seatInput.toInt() - 1).coerceAtLeast(
-                        1
-                    )
-                }"
+                seatInput = "$seatCount",
+                priceTotal = getPrice(seatCount)
             )
         }
     }
 
     fun chooseCategorie(index: Int) {
         _state.update {
+            val seatCount = 1L
+            val categorie = it.categories[index]
             it.copy(
                 selectedCategorie = index,
                 buyPage = BuyPage.Count,
-                seatInput = "1",
+                seatInput = "$seatCount",
+                priceTotal = categorie.price * seatCount,
                 ready = true
             )
         }
@@ -119,11 +139,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun showConfirm() {
+        _state.update {
+            it.copy(showConfirmation = true, ready = false)
+        }
+    }
+
+    fun cancel() {
+        _state.update {
+            it.copy(showConfirmation = false, ready = true)
+        }
+    }
+
     fun confirm() {
         _state.update {
-            it.copy(buyPage = BuyPage.Categorie)
+            it.copy(buyPage = BuyPage.Categorie, showConfirmation = false, ready = false)
         }
 
         currentPageRepository.set(Page.Home)
+    }
+
+    private fun getPrice(count: Long): Long {
+        val categorie = state.value.categories[state.value.selectedCategorie]
+        return categorie.price * count
     }
 }
