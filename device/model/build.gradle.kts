@@ -8,5 +8,4 @@ android {
 }
 
 dependencies {
-    api(libs.draw.receipt)
 }
