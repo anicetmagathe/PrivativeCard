@@ -3,10 +3,10 @@ package core.domain
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
-import com.github.danielfelgar.drawreceiptlib.ReceiptBuilder
 import core.async.Dispatcher
 import core.async.InDispatchers
 import core.common.BarcodeFormat
+import core.common.ReceiptBuilder
 import core.common.format
 import core.common.generateBarcodeBitmap
 import core.common.generateQrCodeBitmap

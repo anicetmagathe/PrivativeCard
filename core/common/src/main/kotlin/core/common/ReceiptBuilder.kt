@@ -5,15 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.Typeface
 import androidx.core.graphics.createBitmap
-import androidx.core.graphics.withTranslation
 
-
+// Domain Model - represents what can be drawn
 sealed interface ReceiptElement {
-    fun measure(width: Int): Int // Returns height needed
-    fun draw(canvas: Canvas, y: Float, width: Int, paint: Paint)
+    fun getHeight(): Int
+    fun drawOnCanvas(canvas: Canvas, x: Float, y: Float)
 }
 
 data class TextElement(
@@ -22,33 +20,20 @@ data class TextElement(
     val color: Int,
     val align: Paint.Align,
     val typeface: Typeface?,
-    val addNewLine: Boolean
+    val newLine: Boolean
 ) : ReceiptElement {
 
-    override fun measure(width: Int): Int {
-        val paint = Paint().apply {
-            this.textSize = this@TextElement.textSize
-            this.typeface = this@TextElement.typeface
-        }
-        val bounds = Rect()
-        paint.getTextBounds(text, 0, text.length, bounds)
-        return bounds.height() + if (addNewLine) (textSize * 0.3f).toInt() else 0
+    override fun getHeight(): Int {
+        return textSize.toInt()
     }
 
-    override fun draw(canvas: Canvas, y: Float, width: Int, paint: Paint) {
-        paint.apply {
+    override fun drawOnCanvas(canvas: Canvas, x: Float, y: Float) {
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textSize = this@TextElement.textSize
             color = this@TextElement.color
             textAlign = this@TextElement.align
             typeface = this@TextElement.typeface
         }
-
-        val x = when (align) {
-            Paint.Align.CENTER -> width / 2f
-            Paint.Align.RIGHT -> width.toFloat()
-            else -> 0f
-        }
-
         canvas.drawText(text, x, y + textSize, paint)
     }
 }
@@ -58,73 +43,58 @@ data class ImageElement(
     val align: Paint.Align
 ) : ReceiptElement {
 
-    override fun measure(width: Int): Int = bitmap.height
+    override fun getHeight(): Int = bitmap.height
 
-    override fun draw(canvas: Canvas, y: Float, width: Int, paint: Paint) {
-        val x = when (align) {
-            Paint.Align.CENTER -> (width - bitmap.width) / 2f
-            Paint.Align.RIGHT -> (width - bitmap.width).toFloat()
-            else -> 0f
-        }
-        canvas.drawBitmap(bitmap, x, y, paint)
+    override fun drawOnCanvas(canvas: Canvas, x: Float, y: Float) {
+        canvas.drawBitmap(bitmap, x, y, Paint())
     }
 }
 
 data class BlankSpaceElement(
-    val height: Int
+    val spaceHeight: Int
 ) : ReceiptElement {
 
-    override fun measure(width: Int): Int = height
+    override fun getHeight(): Int = spaceHeight
 
-    override fun draw(canvas: Canvas, y: Float, width: Int, paint: Paint) {
+    override fun drawOnCanvas(canvas: Canvas, x: Float, y: Float) {
         // Nothing to draw
     }
 }
 
 data class LineElement(
+    val size: Int,
     val color: Int,
-    val align: Paint.Align,
-    val customWidth: Int?,
-    val strokeWidth: Float = 2f
+    val align: Paint.Align
 ) : ReceiptElement {
 
-    override fun measure(width: Int): Int = strokeWidth.toInt() + 8
+    override fun getHeight(): Int = 5
 
-    override fun draw(canvas: Canvas, y: Float, width: Int, paint: Paint) {
-        val lineWidth = customWidth ?: width
-        paint.apply {
+    override fun drawOnCanvas(canvas: Canvas, x: Float, y: Float) {
+        val paint = Paint().apply {
             color = this@LineElement.color
-            strokeWidth = this@LineElement.strokeWidth
-            style = Paint.Style.STROKE
+            strokeWidth = 2f
         }
-
-        val startX = when (align) {
-            Paint.Align.CENTER -> (width - lineWidth) / 2f
-            Paint.Align.RIGHT -> (width - lineWidth).toFloat()
-            else -> 0f
-        }
-
-        canvas.drawLine(startX, y + 4f, startX + lineWidth, y + 4f, paint)
+        canvas.drawLine(x, y, x + size, y, paint)
     }
 }
 
 // Builder with clean separation of concerns
 class ReceiptBuilder(private val width: Int) {
-    private val elements = mutableListOf<ReceiptElement>()
+    private val listItems = mutableListOf<ReceiptElement>()
 
     // Current styling state
     private var backgroundColor: Int = Color.WHITE
-    private var defaultTextSize: Float = 14f
-    private var defaultColor: Int = Color.BLACK
-    private var defaultAlign: Paint.Align = Paint.Align.LEFT
-    private var defaultTypeface: Typeface? = null
+    private var textSize: Float = 14f
+    private var color: Int = Color.BLACK
+    private var align: Paint.Align = Paint.Align.LEFT
+    private var typeface: Typeface? = null
     private var marginTop: Int = 0
     private var marginBottom: Int = 0
     private var marginLeft: Int = 0
     private var marginRight: Int = 0
 
     fun setTextSize(textSize: Float) = apply {
-        this.defaultTextSize = textSize
+        this.textSize = textSize
     }
 
     fun setBackgroundColor(color: Int) = apply {
@@ -132,23 +102,27 @@ class ReceiptBuilder(private val width: Int) {
     }
 
     fun setColor(color: Int) = apply {
-        this.defaultColor = color
-    }
-
-    fun setTypeface(context: Context, typefacePath: String) = apply {
-        this.defaultTypeface = Typeface.createFromAsset(context.assets, typefacePath)
+        this.color = color
     }
 
     fun setTypeface(typeface: Typeface?) = apply {
-        this.defaultTypeface = typeface
+        this.typeface = typeface
+    }
+
+    fun setTypeface/*FromAsset*/(context: Context, assetPath: String) = apply {
+        this.typeface = Typeface.createFromAsset(context.assets, assetPath)
+    }
+
+    fun setTypefaceFromRes(context: Context, fontResId: Int) = apply {
+        this.typeface = context.resources.getFont(fontResId)
     }
 
     fun setDefaultTypeface() = apply {
-        this.defaultTypeface = null
+        this.typeface = null
     }
 
     fun setAlign(align: Paint.Align) = apply {
-        this.defaultAlign = align
+        this.align = align
     }
 
     fun setMargin(margin: Int) = apply {
@@ -171,64 +145,123 @@ class ReceiptBuilder(private val width: Int) {
     fun setMarginBottom(margin: Int) = apply { this.marginBottom = margin }
 
     fun addText(text: String, newLine: Boolean = true) = apply {
-        elements.add(
+        listItems.add(
             TextElement(
                 text = text,
-                textSize = defaultTextSize,
-                color = defaultColor,
-                align = defaultAlign,
-                typeface = defaultTypeface,
-                addNewLine = newLine
+                textSize = textSize,
+                color = color,
+                align = align,
+                typeface = typeface,
+                newLine = newLine
             )
         )
     }
 
     fun addImage(bitmap: Bitmap) = apply {
-        elements.add(ImageElement(bitmap, defaultAlign))
+        listItems.add(ImageElement(bitmap, align))
     }
 
     fun addElement(element: ReceiptElement) = apply {
-        elements.add(element)
+        listItems.add(element)
     }
 
     fun addBlankSpace(height: Int) = apply {
-        elements.add(BlankSpaceElement(height))
+        listItems.add(BlankSpaceElement(height))
     }
 
     fun addParagraph() = apply {
-        elements.add(BlankSpaceElement(defaultTextSize.toInt()))
+        listItems.add(BlankSpaceElement(textSize.toInt()))
     }
 
-    fun addLine(customWidth: Int? = null) = apply {
-        val lineWidth = customWidth ?: (width - marginRight - marginLeft)
-        elements.add(LineElement(defaultColor, defaultAlign, lineWidth))
+    fun addLine(size: Int? = null) = apply {
+        val lineSize = size ?: (width - marginRight - marginLeft)
+        listItems.add(LineElement(lineSize, color, align))
+    }
+
+    private fun getHeight(): Int {
+        var height = 5 + marginTop + marginBottom
+        for (item in listItems) {
+            height += item.getHeight()
+        }
+        return height
+    }
+
+    private fun drawImage(): Bitmap {
+        val contentWidth = width - marginRight - marginLeft
+        val image = createBitmap(contentWidth, getHeight())
+        val canvas = Canvas(image)
+        canvas.drawColor(backgroundColor)
+
+        var size = marginTop.toFloat()
+        var i = 0
+        while (i < listItems.size) {
+            val item = listItems[i]
+
+            // Check if this is a text item with newLine = false
+            if (item is TextElement && !item.newLine) {
+                // Draw this item
+                val x = when (item.align) {
+                    Paint.Align.CENTER -> contentWidth / 2f
+                    Paint.Align.RIGHT -> contentWidth.toFloat()
+                    else -> 0f
+                }
+                item.drawOnCanvas(canvas, x, size)
+
+                // Find next item(s) on the same line
+                var j = i + 1
+                while (j < listItems.size && listItems[j] is TextElement && !listItems[j-1].let { it is TextElement && it.newLine }) {
+                    val nextItem = listItems[j] as TextElement
+                    val nextX = when (nextItem.align) {
+                        Paint.Align.CENTER -> contentWidth / 2f
+                        Paint.Align.RIGHT -> contentWidth.toFloat()
+                        else -> 0f
+                    }
+                    nextItem.drawOnCanvas(canvas, nextX, size)
+                    j++
+                }
+
+                // Advance size by the text height only once for the whole line
+                size += item.textSize
+                i = j
+                continue
+            }
+
+            // Regular item drawing
+            val x = when (item) {
+                is ImageElement if item.align == Paint.Align.CENTER ->
+                    (contentWidth - item.bitmap.width) / 2f
+
+                is ImageElement if item.align == Paint.Align.RIGHT ->
+                    (contentWidth - item.bitmap.width).toFloat()
+
+                is LineElement if item.align == Paint.Align.CENTER ->
+                    (contentWidth - item.size) / 2f
+
+                is LineElement if item.align == Paint.Align.RIGHT ->
+                    (contentWidth - item.size).toFloat()
+
+                is TextElement if item.align == Paint.Align.CENTER ->
+                    contentWidth / 2f
+
+                is TextElement if item.align == Paint.Align.RIGHT ->
+                    contentWidth.toFloat()
+
+                else -> 0f
+            }
+
+            item.drawOnCanvas(canvas, x, size)
+            size += item.getHeight()
+            i++
+        }
+        return image
     }
 
     fun build(): Bitmap {
-        val contentWidth = width - marginLeft - marginRight
-        val contentHeight = calculateHeight(contentWidth)
-        val totalHeight = contentHeight + marginTop + marginBottom
-
-        val bitmap = createBitmap(width, totalHeight)
-        val canvas = Canvas(bitmap)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-        // Draw background
+        val image = createBitmap(width, getHeight())
+        val canvas = Canvas(image)
+        val paint = Paint()
         canvas.drawColor(backgroundColor)
-
-        // Draw elements
-        var currentY = marginTop.toFloat()
-        elements.forEach { element ->
-            canvas.withTranslation(marginLeft.toFloat(), 0f) {
-                element.draw(this, currentY, contentWidth, paint)
-            }
-            currentY += element.measure(contentWidth)
-        }
-
-        return bitmap
-    }
-
-    private fun calculateHeight(contentWidth: Int): Int {
-        return elements.sumOf { it.measure(contentWidth) } + 10
+        canvas.drawBitmap(drawImage(), marginLeft.toFloat(), 0f, paint)
+        return image
     }
 }
