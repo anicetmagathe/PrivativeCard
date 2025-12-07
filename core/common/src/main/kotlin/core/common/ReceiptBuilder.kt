@@ -1,11 +1,7 @@
 package core.common
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import androidx.core.graphics.createBitmap
 
 // Domain Model - represents what can be drawn
@@ -20,7 +16,8 @@ data class TextElement(
     val color: Int,
     val align: Paint.Align,
     val typeface: Typeface?,
-    val newLine: Boolean
+    val newLine: Boolean,
+    val backgroundColor: Int?
 ) : ReceiptElement {
 
     override fun getHeight(): Int {
@@ -28,6 +25,29 @@ data class TextElement(
     }
 
     override fun drawOnCanvas(canvas: Canvas, x: Float, y: Float) {
+        // Draw background if specified
+        if (backgroundColor != null) {
+            val paint = Paint().apply {
+                color = backgroundColor
+                style = Paint.Style.FILL
+            }
+            val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                textSize = this@TextElement.textSize
+                typeface = this@TextElement.typeface
+            }
+            val textWidth = textPaint.measureText(text)
+            val textHeight = textSize
+
+            // Calculate background rectangle based on alignment
+            val left = when (align) {
+                Paint.Align.CENTER -> x - textWidth / 2f
+                Paint.Align.RIGHT -> x - textWidth
+                else -> x
+            }
+            canvas.drawRect(left, y, left + textWidth, y + textHeight, paint)
+        }
+
+        // Draw text
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textSize = this@TextElement.textSize
             color = this@TextElement.color
@@ -64,17 +84,35 @@ data class BlankSpaceElement(
 data class LineElement(
     val size: Int,
     val color: Int,
-    val align: Paint.Align
+    val align: Paint.Align,
+    val lineChar: Char?,
+    val textSize: Float,
+    val typeface: Typeface?
 ) : ReceiptElement {
 
-    override fun getHeight(): Int = 5
+    override fun getHeight(): Int = if (lineChar != null) textSize.toInt() else 5
 
     override fun drawOnCanvas(canvas: Canvas, x: Float, y: Float) {
-        val paint = Paint().apply {
-            color = this@LineElement.color
-            strokeWidth = 2f
+        if (lineChar != null) {
+            // Draw text-based line (e.g., "------" or "======")
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = this@LineElement.color
+                textSize = this@LineElement.textSize
+                textAlign = Paint.Align.LEFT
+                typeface = this@LineElement.typeface
+            }
+            val charWidth = paint.measureText(lineChar.toString())
+            val repeatCount = (size / charWidth).toInt()
+            val lineText = lineChar.toString().repeat(repeatCount)
+            canvas.drawText(lineText, x, y + textSize, paint)
+        } else {
+            // Draw solid line
+            val paint = Paint().apply {
+                color = this@LineElement.color
+                strokeWidth = 2f
+            }
+            canvas.drawLine(x, y, x + size, y, paint)
         }
-        canvas.drawLine(x, y, x + size, y, paint)
     }
 }
 
@@ -84,6 +122,7 @@ class ReceiptBuilder(private val width: Int) {
 
     // Current styling state
     private var backgroundColor: Int = Color.WHITE
+    private var textBackgroundColor: Int? = null
     private var textSize: Float = 14f
     private var color: Int = Color.BLACK
     private var align: Paint.Align = Paint.Align.LEFT
@@ -101,6 +140,10 @@ class ReceiptBuilder(private val width: Int) {
         this.backgroundColor = color
     }
 
+    fun setTextBackgroundColor(color: Int?) = apply {
+        this.textBackgroundColor = color
+    }
+
     fun setColor(color: Int) = apply {
         this.color = color
     }
@@ -109,11 +152,11 @@ class ReceiptBuilder(private val width: Int) {
         this.typeface = typeface
     }
 
-    fun setTypeface/*FromAsset*/(context: Context, assetPath: String) = apply {
+    fun setTypeface(context: Context, assetPath: String) = apply {
         this.typeface = Typeface.createFromAsset(context.assets, assetPath)
     }
 
-    fun setTypefaceFromRes(context: Context, fontResId: Int) = apply {
+    fun setTypeface(context: Context, fontResId: Int) = apply {
         this.typeface = context.resources.getFont(fontResId)
     }
 
@@ -152,7 +195,8 @@ class ReceiptBuilder(private val width: Int) {
                 color = color,
                 align = align,
                 typeface = typeface,
-                newLine = newLine
+                newLine = newLine,
+                backgroundColor = textBackgroundColor
             )
         )
     }
@@ -173,9 +217,15 @@ class ReceiptBuilder(private val width: Int) {
         listItems.add(BlankSpaceElement(textSize.toInt()))
     }
 
-    fun addLine(size: Int? = null) = apply {
+    fun addLine(size: Int? = null, lineChar: Char = '-') = apply {
         val lineSize = size ?: (width - marginRight - marginLeft)
-        listItems.add(LineElement(lineSize, color, align))
+        // Use current textSize and typeface settings
+        listItems.add(LineElement(lineSize, color, align, lineChar, textSize, typeface))
+    }
+
+    fun addSolidLine(size: Int? = null) = apply {
+        val lineSize = size ?: (width - marginRight - marginLeft)
+        listItems.add(LineElement(lineSize, color, align, null, textSize, typeface))
     }
 
     private fun getHeight(): Int {
