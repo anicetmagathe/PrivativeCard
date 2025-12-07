@@ -35,6 +35,7 @@ androidxWork = "2.11.0"
 coil = "2.7.0"
 commonsNet = "3.12.0"
 core = "1.17.0"
+zxingCore = "3.5.4"
 dependencyGuard = "0.5.0"
 drawReceipt = "0.1.3"
 firebaseBom = "32.4.0"
@@ -135,6 +136,7 @@ coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 commons-net = { module = "commons-net:commons-net", version.ref = "commonsNet" }
+zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 draw-receipt = { module = "com.github.danielfelgar:draw-receipt", version.ref = "drawReceipt" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
