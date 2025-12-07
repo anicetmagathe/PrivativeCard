@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -33,9 +33,9 @@ fun AnimatedCounter(
                     targetState = digit,
                     transitionSpec = {
                         if (targetState > initialState) {
-                            slideInVertically { -it } with slideOutVertically { it }
+                            slideInVertically { -it }.togetherWith(slideOutVertically { it })
                         } else {
-                            slideInVertically { it } with slideOutVertically { -it }
+                            slideInVertically { it }.togetherWith(slideOutVertically { -it })
                         }
                     }
                 ) { digit ->
