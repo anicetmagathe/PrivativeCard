@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +30,7 @@ fun CategoriePickView(
     categories: List<Categorie>,
     onChooseCategorie: (Int) -> Unit
 ) {
-    val numberOfPlaceAvailable by remember { mutableIntStateOf(categories.sumOf { it.available }) }
+    val numberOfPlaceAvailable by remember { mutableLongStateOf(categories.sumOf { it.available }) }
 
     Column(modifier = modifier) {
         Column(

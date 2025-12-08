@@ -89,7 +89,7 @@ fun SeatInputView(
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
-                            text = "Sector ${categorie.sector.id}",
+                            text = categorie.description,
                             style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
                         )
                     }

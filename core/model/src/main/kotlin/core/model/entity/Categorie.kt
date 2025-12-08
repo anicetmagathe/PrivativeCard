@@ -6,5 +6,5 @@ data class Categorie(
     val description: String = "",
     val price: Double,
     val sector: Sector,
-    val available: Int
+    val available: Long
 )
