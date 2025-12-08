@@ -18,6 +18,8 @@ import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -58,6 +60,9 @@ fun SectorPickPage(
         )
     )
 
+    val match by remember(state) { mutableStateOf(state.matchs[state.selectedMatch]) }
+
+
     BottomSheetScaffold(
         modifier = modifier.padding(bottom = innerPadding.calculateBottomPadding()),
         scaffoldState = scaffoldState,
@@ -71,7 +76,7 @@ fun SectorPickPage(
                     BuyPage.Categorie -> {
                         CategoriePickView(
                             modifier = Modifier.fillMaxWidth(),
-                            categories = state.categories,
+                            categories = match.categories,
                             onChooseCategorie = viewModel::chooseCategorie
                         )
                     }
@@ -79,7 +84,7 @@ fun SectorPickPage(
                     BuyPage.Count -> {
                         SeatInputView(
                             modifier = Modifier.fillMaxWidth(),
-                            categorie = state.categories[state.selectedCategorie],
+                            categorie = match.categories[state.selectedCategorie],
                             seatCount = state.seatInput,
                             priceTotal = state.priceTotal,
                             ready = state.ready,
@@ -124,7 +129,7 @@ fun SectorPickPage(
                     append(" seats of ")
 
                     withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-                        append(state.categories[state.selectedCategorie].name)
+                        append(match.categories[state.selectedCategorie].name)
                     }
 
                     append(" for ")

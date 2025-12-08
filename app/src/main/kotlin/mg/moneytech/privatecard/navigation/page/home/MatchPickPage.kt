@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,13 +24,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import core.data.demo.DemoCategorie
 import core.data.demo.DemoClub
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
 import core.model.entity.MainClub
 import core.ui.DevicePreviews
+import mg.moneytech.privatecard.navigation.component.ErrorDialog
 import mg.moneytech.privatecard.navigation.component.PickMatchView
 import mg.moneytech.privatecard.navigation.logoForClub
 
@@ -44,8 +47,22 @@ fun MatchPickPage(
         modifier = modifier,
         innerPadding = innerPadding,
         state = state,
+        onRefresh = homeViewModel::refreshMatch,
         onChooseMatch = homeViewModel::chooseMatch
     )
+
+    state.error?.let {
+        Dialog(
+            onDismissRequest = { },
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            ErrorDialog(message = it, onOk = homeViewModel::hideError)
+        }
+    }
 }
 
 @Composable
@@ -53,6 +70,7 @@ private fun MatchPickPageImpl(
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues = PaddingValues(),
     state: HomeState,
+    onRefresh: () -> Unit,
     onChooseMatch: (Int) -> Unit
 ) {
     Column(
@@ -72,17 +90,27 @@ private fun MatchPickPageImpl(
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
             )
 
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+            PullToRefreshBox(
+                isRefreshing = state.loading == Loading.Connecting,
+                onRefresh = onRefresh,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             ) {
-                itemsIndexed(state.matchs) { index, match ->
-                    PickMatchView(
-                        modifier = Modifier.fillMaxWidth(),
-                        match = match,
-                        onClick = { onChooseMatch(index) })
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    itemsIndexed(state.matchs) { index, match ->
+                        PickMatchView(
+                            modifier = Modifier.fillMaxWidth(),
+                            match = match,
+                            onClick = { onChooseMatch(index) })
+                    }
                 }
             }
+
+
         }
     }
 }
@@ -138,8 +166,8 @@ private fun MatchPickPagePreview() {
             state = HomeState(
                 mainClubs = DemoClub.teams,
                 matchs = DemoMatch.matchs,
-                categories = DemoCategorie.categories
             ),
+            onRefresh = {},
             onChooseMatch = {}
         )
     }

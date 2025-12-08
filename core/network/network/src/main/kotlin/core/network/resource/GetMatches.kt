@@ -13,9 +13,9 @@ object GetMatches {
 
     @Serializable
     data class Response(
-        @SerialName("ErrCode") override val errorCode: String,
+        @SerialName("ErrorCode") override val errorCode: String,
 
-        @SerialName("ErrMessage") override val errorMessage: String,
+        @SerialName("ErrorMessage") override val errorMessage: String,
 
         @SerialName("Matches") val matches: List<Match>
     ) : ApiResponse

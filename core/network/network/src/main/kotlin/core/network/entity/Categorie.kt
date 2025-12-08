@@ -23,6 +23,7 @@ fun Categorie.asExternal(): CategorieEntity {
     return CategorieEntity(
         id = 0,
         name = label,
+        description = description,
         price = price.toDouble(),
         sector = Sector(0),
         available = 10

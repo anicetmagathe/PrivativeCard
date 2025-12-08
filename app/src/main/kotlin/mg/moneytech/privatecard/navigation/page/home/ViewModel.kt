@@ -15,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mg.moneytech.privatecard.navigation.Page
@@ -40,14 +41,15 @@ data class HomeState(
     val mainClubs: List<MainClub>,
     val matchs: List<Match>,
     val selectedMatch: Int = -1,
-    val categories: List<Categorie>,
+//    val categories: List<Categorie>,
     val selectedCategorie: Int = -1,
     val buyPage: BuyPage = BuyPage.Categorie,
     val seatInput: String = "",
     val priceTotal: Double = 0.0,
     val ready: Boolean = false,
     val showConfirmation: Boolean = false,
-    val loading: Loading = Loading.Ready
+    val loading: Loading = Loading.Ready,
+    val error: String? = null
 )
 
 @HiltViewModel
@@ -55,17 +57,31 @@ class HomeViewModel @Inject constructor(
     private val matchRepository: MatchRepository,
     private val currentPageRepository: CurrentPageRepository,
     private val validateSeatCount: ValidateSeatCountUseCase,
-    private val printTicketUseCase: PrintTicketUseCase
+    private val printTicketUseCase: PrintTicketUseCase,
 ) : ViewModel() {
     private val _state =
         MutableStateFlow(
             HomeState(
                 mainClubs = DemoClub.teams,
                 matchs = DemoMatch.matchs,
-                categories = DemoCategorie.categories
+//                categories = DemoCategorie.categories
             )
         )
     val state = _state.asStateFlow()
+
+    /*init {
+        viewModelScope.launch {
+            matchRepository.get().collect {
+
+            }
+        }
+    }*/
+
+    fun hideError() {
+        _state.update {
+            it.copy(error = null)
+        }
+    }
 
     fun updateSeatInput(value: String) {
         validateSeatCount.mayBeValid(value).fold(
@@ -73,8 +89,7 @@ class HomeViewModel @Inject constructor(
                 validateSeatCount(value).fold(
                     onSuccess = {
                         val seatInput = value.toLong()
-                        val availableSeat =
-                            state.value.categories[state.value.selectedCategorie].available
+                        val availableSeat = selectedCategorie().available
                         val ready = seatInput <= availableSeat
                         val seatCount = if (ready) seatInput else state.value.seatInput.toLong()
 
@@ -96,6 +111,30 @@ class HomeViewModel @Inject constructor(
             onFailure = {}
         )
 
+    }
+
+    fun refreshMatch() {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(loading = Loading.Connecting)
+            }
+
+            matchRepository.sync().fold(
+                onSuccess = {
+                    _state.update {
+                        it.copy(loading = Loading.Ready, matchs = matchRepository.get().first())
+                    }
+                },
+                onFailure = { reason ->
+                    _state.update {
+                        it.copy(
+                            loading = Loading.Ready,
+                            error = reason.message ?: "Erreur obtention liste des matchs"
+                        )
+                    }
+                }
+            )
+        }
     }
 
     fun chooseMatch(index: Int) {
@@ -136,7 +175,7 @@ class HomeViewModel @Inject constructor(
     fun chooseCategorie(index: Int) {
         _state.update {
             val seatCount = 1L
-            val categorie = it.categories[index]
+            val categorie = it.matchs[it.selectedMatch].categories[index]
             it.copy(
                 selectedCategorie = index,
                 buyPage = BuyPage.Count,
@@ -171,28 +210,14 @@ class HomeViewModel @Inject constructor(
                 it.copy(loading = Loading.Printing)
             }
 
-            val match = state.value.matchs[state.value.selectedMatch]
-            val categorie = state.value.categories[state.value.selectedCategorie]
+            val match = selectedMatch()
+            val categorie = selectedCategorie()
             val count = state.value.seatInput.toLong()
             val price = count * categorie.price
 
 
             printTicketUseCase(match, categorie, count).fold(
                 onSuccess = {
-                    /*_state.update {
-                        it.copy(
-                            loading = Loading.Error
-                        )
-                    }
-
-                    delay(4000)
-                    _state.update {
-                        it.copy(
-                            loading = Loading.Success
-                        )
-                    }
-                    delay(4000)*/
-
                     _state.update {
                         it.copy(
                             buyPage = BuyPage.Categorie,
@@ -216,8 +241,17 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    private fun selectedMatch(): Match {
+        return state.value.matchs[state.value.selectedMatch]
+    }
+
+    private fun selectedCategorie(): Categorie {
+        return selectedMatch().categories[state.value.selectedCategorie]
+    }
+
     private fun getPrice(count: Long): Double {
-        val categorie = state.value.categories[state.value.selectedCategorie]
+        val match = state.value.matchs[state.value.selectedMatch]
+        val categorie = match.categories[state.value.selectedCategorie]
         return categorie.price * count
     }
 }

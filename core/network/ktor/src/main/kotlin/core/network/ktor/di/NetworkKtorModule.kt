@@ -1,5 +1,6 @@
 package core.network.ktor.di
 
+import android.util.Log
 import core.network.NetworkDataSource
 import core.network.NetworkInfo
 import core.network.ktor.KtorNetworkDataSource
@@ -37,7 +38,7 @@ object NetworkKtorProvidesModule {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        /*Log.debug(message, Network)*/
+                        Log.d("PrivateCardLog", message)
                     }
                 }
 

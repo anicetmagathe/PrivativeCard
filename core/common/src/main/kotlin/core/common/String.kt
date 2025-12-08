@@ -5,5 +5,5 @@ import java.time.format.DateTimeFormatter
 
 fun String.toLocalDateTime(format: String): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern(format)
-    return LocalDateTime.parse(format, formatter)
+    return LocalDateTime.parse(this, formatter)
 }

@@ -45,6 +45,6 @@ class KtorNetworkDataSource @Inject constructor(
         }
     }
 
-    private val baseUrl = "http://www.moneytech.mg:8017/CLUB/ws/Club.svc/1.0/"
+    private val baseUrl = "http://www.moneytech.mg:8017/CLUB/ws/Club.svc/v1/"
 }
 

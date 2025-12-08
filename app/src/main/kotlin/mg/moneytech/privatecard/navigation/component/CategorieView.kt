@@ -65,7 +65,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
                 )
 
                 Text(
-                    text = "Secteur ${categorie.sector.id}",
+                    text = categorie.description,
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1
                 )
