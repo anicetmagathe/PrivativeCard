@@ -22,7 +22,7 @@ import core.ui.DevicePreviews
 @Composable
 fun AnimatedCounter(
     modifier: Modifier = Modifier,
-    counter: Long,
+    counter: Double,
     style: TextStyle = MaterialTheme.typography.titleLarge
 ) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -50,7 +50,7 @@ fun AnimatedCounter(
 
 }
 
-private data class Digit(val digitChar: Char, val fullNumber: Long, val place: Int) {
+private data class Digit(val digitChar: Char, val fullNumber: Double, val place: Int) {
     override fun equals(other: Any?): Boolean {
         return when (other) {
             is Digit -> digitChar == other.digitChar
@@ -67,6 +67,6 @@ private operator fun Digit.compareTo(other: Digit): Int {
 @Composable
 private fun AnimatedCounterPreview() {
     AppTheme {
-        AnimatedCounter(modifier = Modifier.fillMaxWidth(), counter = 1000)
+        AnimatedCounter(modifier = Modifier.fillMaxWidth(), counter = 1000.0)
     }
 }

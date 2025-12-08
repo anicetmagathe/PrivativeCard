@@ -9,4 +9,6 @@ android {
 
 dependencies {
     implementation(projects.core.model)
+    demoImplementation(projects.core.network.demo)
+    prodImplementation(projects.core.network.ktor)
 }

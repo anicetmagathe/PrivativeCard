@@ -72,6 +72,7 @@ robolectric = "4.16"
 roborazzi = "1.52.0"
 room = "2.8.4"
 secrets = "2.0.1"
+slf4jAndroid = "1.7.36"
 truth = "1.4.5"
 turbine = "1.2.1"
 junit = "4.13.2"
@@ -172,6 +173,7 @@ roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", versi
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 

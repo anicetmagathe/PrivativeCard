@@ -44,7 +44,7 @@ data class HomeState(
     val selectedCategorie: Int = -1,
     val buyPage: BuyPage = BuyPage.Categorie,
     val seatInput: String = "",
-    val priceTotal: Long = 0,
+    val priceTotal: Double = 0.0,
     val ready: Boolean = false,
     val showConfirmation: Boolean = false,
     val loading: Loading = Loading.Ready
@@ -88,7 +88,7 @@ class HomeViewModel @Inject constructor(
                     },
                     onFailure = {
                         _state.update {
-                            it.copy(seatInput = value, ready = false, priceTotal = 0)
+                            it.copy(seatInput = value, ready = false, priceTotal = 0.0)
                         }
                     }
                 )
@@ -216,7 +216,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun getPrice(count: Long): Long {
+    private fun getPrice(count: Long): Double {
         val categorie = state.value.categories[state.value.selectedCategorie]
         return categorie.price * count
     }

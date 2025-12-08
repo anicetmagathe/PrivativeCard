@@ -1,0 +1,52 @@
+{
+  "ErrorCode": "0",
+  "ErrorMessage": "",
+  "Matches": [
+    {
+      "Stade": "RCDE Stadium",
+      "Date": "07/12/2025 20:30",
+      "Libelle": "ESPANYOL vs RAYO VALLECANO",
+      "Description": "LIGA 15e Journée",
+      "Categorie": [
+        {
+          "Libelle": "Tribune",
+          "Description": "Tribune VIP",
+          "Prix": "40.00",
+          "Devise": "Euros"
+        },
+        {
+          "Libelle": "Gradin",
+          "Description": "Tribune public",
+          "Prix": "20.00",
+          "Devise": "Euros"
+        }
+      ]
+    },
+    {
+      "Stade": "BERNABEU",
+      "Date": "07/12/2025 23:00",
+      "Libelle": "REAL MADRID vs CELTA VIGO",
+      "Description": "LIGA 15e Journée",
+      "Categorie": [
+        {
+          "Libelle": "Tribune centrale",
+          "Description": "Tribune VIP",
+          "Prix": "50.00",
+          "Devise": "Euros"
+        },
+        {
+          "Libelle": "Virage ouest",
+          "Description": "Reservé visiteurs",
+          "Prix": "25.00",
+          "Devise": "Euros"
+        },
+        {
+          "Libelle": "Virage sud",
+          "Description": "Ultra Madrid",
+          "Prix": "30.00",
+          "Devise": "Euros"
+        }
+      ]
+    }
+  ]
+}
