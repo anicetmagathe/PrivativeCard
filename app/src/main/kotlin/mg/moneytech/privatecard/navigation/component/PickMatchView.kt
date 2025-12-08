@@ -21,8 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import core.common.format
 import core.common.upperCaseFirst
@@ -62,7 +65,17 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                             .upperCaseFirst() + match.date.format(" à kk:mm"),
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
-                    Text(text = "${match.description} • ${match.stadium.name}")
+                    Text(text = buildAnnotatedString {
+                        append("${match.description} • ")
+                        withStyle(
+                            SpanStyle(
+                                color = Color.DarkGray,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append(match.stadium.name)
+                        }
+                    })
                 }
 
             }
@@ -85,7 +98,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                 }
 
                 Button(onClick = onClick, shape = RoundedCornerShape(16.dp)) {
-                    Text(text = "ACHETER TICKETS", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "ACHETER TICKET", style = MaterialTheme.typography.bodyLarge)
                 }
 
             }

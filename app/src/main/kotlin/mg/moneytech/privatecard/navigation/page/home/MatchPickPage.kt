@@ -86,7 +86,7 @@ private fun MatchPickPageImpl(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "SÉLECTIONNER UN MATCH",
+                text = "Prochain match",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
             )
 

@@ -120,7 +120,7 @@ fun ConfirmationView(
 
                                     DefaultButton(
                                         modifier = Modifier.fillMaxWidth(),
-                                        label = "CONFIRMER ACHAT",
+                                        label = "CONFIRMER L'ACHAT",
                                         onClick = onConfirm,
                                     )
                                 }
