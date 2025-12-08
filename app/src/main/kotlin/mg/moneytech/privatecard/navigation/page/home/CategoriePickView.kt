@@ -39,7 +39,7 @@ fun CategoriePickView(
                 .padding(16.dp)
         ) {
             Text(
-                text = "$numberOfPlaceAvailable Seats Available",
+                text = "$numberOfPlaceAvailable Places Disponible",
                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
             )
         }

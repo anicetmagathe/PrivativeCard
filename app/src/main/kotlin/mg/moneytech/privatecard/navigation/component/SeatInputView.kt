@@ -99,7 +99,7 @@ fun SeatInputView(
                         horizontalAlignment = Alignment.End
                     ) {
                         Text(
-                            text = "Unit price",
+                            text = "Prix Unitaire",
                             style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
                         )
 
@@ -118,7 +118,7 @@ fun SeatInputView(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Total Price  ",
+                    text = "Prix Total  ",
                     style = MaterialTheme.typography.titleLarge,
                 )
 
@@ -153,7 +153,7 @@ fun SeatInputView(
                 .fillMaxWidth()
                 .height(56.dp),
             onClick = onConfirm,
-            label = "BUY IT",
+            label = "PAYER",
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
         )

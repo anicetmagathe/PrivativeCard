@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.common.format
+import core.common.upperCaseFirst
 import core.designsystem.theme.AppTheme
 import core.ui.DevicePreviews
 import java.time.LocalDateTime
@@ -49,7 +50,7 @@ fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = dateTime.format("LLL"),
+                        text = dateTime.format("MMM").replace(".", "").take(3).upperCaseFirst(),
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }

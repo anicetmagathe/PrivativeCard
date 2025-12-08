@@ -25,7 +25,8 @@ private fun generateRandomMatch(): Match {
             startDate = LocalDate.now(),
             endDate = LocalDate.now().plusYears(1)
         ),
-        stadium = getRandomStadium()
+        stadium = getRandomStadium(),
+        description = "LIGA"
     )
 }
 

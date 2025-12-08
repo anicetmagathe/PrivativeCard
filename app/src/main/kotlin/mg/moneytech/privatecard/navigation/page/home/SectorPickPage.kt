@@ -114,7 +114,7 @@ fun SectorPickPage(
                 loading = state.loading,
                 match = state.matchs[state.selectedMatch],
                 message = buildAnnotatedString {
-                    append("Confirm ")
+                    append("Confirmer d'achat de ")
 
                     withStyle(
                         SpanStyle(
@@ -126,13 +126,13 @@ fun SectorPickPage(
                         append("${state.seatInput.toLong()}")
                     }
 
-                    append(" seats of ")
+                    append(" place(s) ")
 
                     withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                         append(match.categories[state.selectedCategorie].name)
                     }
 
-                    append(" for ")
+                    append(" pour ")
 
                     withStyle(
                         SpanStyle(

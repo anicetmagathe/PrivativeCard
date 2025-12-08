@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.common.format
+import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
@@ -69,7 +70,8 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = match.date.format("EEE, MMM dd / HH:mm"),
+                        text = match.date.format("EEEE dd MMM")
+                            .upperCaseFirst() + match.date.format(" à kk:mm"),
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
                     )
 

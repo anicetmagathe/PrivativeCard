@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import core.common.format
+import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
 import core.model.entity.Club
@@ -57,10 +58,11 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = match.date.format("EEEE, kk.mm a"),
+                        text = match.date.format("EEEE")
+                            .upperCaseFirst() + match.date.format(" à kk:mm"),
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
-                    Text(text = "La Liga • ${match.stadium.name}")
+                    Text(text = "${match.description} • ${match.stadium.name}")
                 }
 
             }
@@ -83,7 +85,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                 }
 
                 Button(onClick = {}, shape = RoundedCornerShape(16.dp)) {
-                    Text(text = "BUY TICKETS", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "ACHETER TICKETS", style = MaterialTheme.typography.bodyLarge)
                 }
 
             }
