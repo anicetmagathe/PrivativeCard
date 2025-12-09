@@ -89,11 +89,11 @@ fun IncrementDecrementView(
                     )
                 )
 
-                Text(
+                /*Text(
                     text = "/ $trailingValue",
                     maxLines = 1,
                     style = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center)
-                )
+                )*/
             }
 
             CommandButton(

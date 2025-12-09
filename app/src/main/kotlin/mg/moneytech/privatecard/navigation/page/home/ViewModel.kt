@@ -39,8 +39,8 @@ enum class Loading {
 data class Price(val count: Long, val price: Long)
 
 data class HomeState(
-    val mainClubs: List<MainClub>,
-    val matchs: List<Match>,
+    val mainClubs: List<MainClub> = emptyList(),
+    val matchs: List<Match> = emptyList(),
     val selectedMatch: Int = -1,
 //    val categories: List<Categorie>,
     val selectedCategorie: Int = -1,
@@ -63,20 +63,15 @@ class HomeViewModel @Inject constructor(
     private val _state =
         MutableStateFlow(
             HomeState(
-                mainClubs = DemoClub.teams,
-                matchs = DemoMatch.matchs,
+//                mainClubs = DemoClub.teams,
+//                matchs = DemoMatch.matchs,
 //                categories = DemoCategorie.categories
             )
         )
     val state = _state.asStateFlow()
 
-    /*init {
-        viewModelScope.launch {
-            matchRepository.get().collect {
+    val maxSeatCount = 999L
 
-            }
-        }
-    }*/
 
     fun hideError() {
         _state.update {
@@ -90,8 +85,7 @@ class HomeViewModel @Inject constructor(
                 validateSeatCount(value).fold(
                     onSuccess = {
                         val seatInput = value.toLong()
-                        val availableSeat = selectedCategorie().available
-                        val ready = seatInput <= availableSeat
+                        val ready = seatInput <= maxSeatCount
                         val seatCount = if (ready) seatInput else state.value.seatInput.toLong()
 
                         _state.update {
@@ -150,10 +144,9 @@ class HomeViewModel @Inject constructor(
 
     fun incrementSeatInput() {
         _state.update {
-            val availableSeat = selectedCategorie().available
             val currentSeatCount = it.seatInput.toLongOrDefault(0)
 
-            val seatCount = if (currentSeatCount < availableSeat) {
+            val seatCount = if (currentSeatCount < maxSeatCount) {
                 currentSeatCount + 1
             } else {
                 currentSeatCount
@@ -221,7 +214,6 @@ class HomeViewModel @Inject constructor(
             val match = selectedMatch()
             val categorie = selectedCategorie()
             val count = state.value.seatInput.toLong()
-            val price = count * categorie.price
 
 
             printTicketUseCase(match, categorie, count).fold(

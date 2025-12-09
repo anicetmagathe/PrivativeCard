@@ -30,20 +30,7 @@ fun CategoriePickView(
     categories: List<Categorie>,
     onChooseCategorie: (Int) -> Unit
 ) {
-    val numberOfPlaceAvailable by remember { mutableLongStateOf(categories.sumOf { it.available }) }
-
     Column(modifier = modifier) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = "$numberOfPlaceAvailable Places Disponible",
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-            )
-        }
-
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),

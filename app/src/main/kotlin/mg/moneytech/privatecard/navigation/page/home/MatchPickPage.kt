@@ -1,27 +1,21 @@
 package mg.moneytech.privatecard.navigation.page.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -30,11 +24,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import core.data.demo.DemoClub
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
-import core.model.entity.MainClub
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.component.ErrorDialog
 import mg.moneytech.privatecard.navigation.component.PickMatchView
-import mg.moneytech.privatecard.navigation.logoForClub
 
 @Composable
 fun MatchPickPage(
@@ -42,6 +34,10 @@ fun MatchPickPage(
     innerPadding: PaddingValues,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        homeViewModel.refreshMatch()
+    }
+
     val state by homeViewModel.state.collectAsState()
     MatchPickPageImpl(
         modifier = modifier,
@@ -111,48 +107,6 @@ private fun MatchPickPageImpl(
             }
 
 
-        }
-    }
-}
-
-@Composable
-private fun ClubViews(modifier: Modifier = Modifier, mainClubs: List<MainClub>) {
-    LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(8.dp)
-    ) {
-        items(mainClubs) { mainClub ->
-            Card(onClick = {}) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Text(text = mainClub.name)
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        mainClub.clubs.chunked(4).forEach { clubParts ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceEvenly
-                            ) {
-                                clubParts.forEach { club ->
-                                    Image(
-                                        painter = painterResource(logoForClub(club.logo)),
-                                        contentDescription = null,
-                                        contentScale = ContentScale.FillHeight,
-                                        modifier = Modifier.size(80.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
