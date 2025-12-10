@@ -78,8 +78,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
                 text = "${categorie.price.format()} €",
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = Color(localTheme.foregroundColor),
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = FontFamily.Serif
+                    fontWeight = FontWeight.SemiBold
                 ),
                 maxLines = 1
             )

@@ -38,9 +38,7 @@ fun DefaultButton(
         ) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.titleLarge.copy(/*fontWeight = FontWeight.SemiBold*/
-                    fontFamily = FontFamily.Serif
-                )
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }
