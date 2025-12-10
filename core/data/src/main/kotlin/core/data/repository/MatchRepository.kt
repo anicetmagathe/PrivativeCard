@@ -1,9 +1,7 @@
 package core.data.repository
 
-import android.graphics.Color
+import androidx.core.graphics.toColorInt
 import core.data.demo.DemoCategorie
-import core.data.demo.DemoClub
-import core.model.entity.Club
 import core.model.entity.Match
 import core.model.entity.Theme
 import core.model.repository.MatchRepository
@@ -13,7 +11,6 @@ import core.network.entity.asExternal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
-import androidx.core.graphics.toColorInt
 
 class MatchRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
@@ -25,22 +22,23 @@ class MatchRepositoryImpl @Inject constructor(
 
     override suspend fun sync(): Result<Unit> {
         return networkDataSource.getMatches("123456").mapCatching { result ->
+            themeRepository.set(
+                theme = Theme(
+                    backgroundColor = result.backgroundColor.toColorInt(),
+                    foregroundColor = result.foregroundColor.toColorInt()
+                )
+            )
+
             val matches = result.matches.map { it.asExternal() }.map { match ->
-                val defaultLogo = DemoClub.teams[0].clubs[0].logo
-                val similarClub1 = searchClub(match.club1.name).getOrNull(0)
-                val similarClub2 = searchClub(match.club2.name).getOrNull(0)
                 var categorieIndex = 0
 
-                themeRepository.set(
-                    theme = Theme(
-                        backgroundColor = result.backgroundColor.toColorInt(),
-                        foregroundColor = result.foregroundColor.toColorInt()
-                    )
-                )
-
                 match.copy(
-                    club1 = match.club1.copy(logo = similarClub1?.logo ?: defaultLogo),
-                    club2 = match.club2.copy(logo = similarClub2?.logo ?: defaultLogo),
+                    club1 = match.club1.copy(
+                        logoUrl = match.club1.logoUrl
+                    ),
+                    club2 = match.club2.copy(
+                        logoUrl = match.club2.logoUrl
+                    ),
                     categories = match.categories.map {
                         val currentCategorieIndex =
                             if (categorieIndex < DemoCategorie.categories.size) {
@@ -57,23 +55,4 @@ class MatchRepositoryImpl @Inject constructor(
     }
 
     private val _matches = MutableStateFlow<List<Match>>(emptyList())
-}
-
-private fun searchClub(query: String): List<Club> {
-    if (query.isBlank()) return emptyList()
-
-    val results = mutableListOf<Club>()
-    val searchQuery = query.trim().lowercase()
-
-    DemoClub.teams.forEach { mainClub ->
-        mainClub.clubs.forEach { club ->
-            if (club.name.lowercase().contains(searchQuery)) {
-                results.add(
-                    club
-                )
-            }
-        }
-    }
-
-    return results
 }

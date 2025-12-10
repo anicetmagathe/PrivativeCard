@@ -104,7 +104,7 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     AsyncImage(
-                        model = match.club1,
+                        model = match.club1.logoUrl,
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)
@@ -147,7 +147,7 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     AsyncImage(
-                        model = match.club2,
+                        model = match.club2.logoUrl,
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)

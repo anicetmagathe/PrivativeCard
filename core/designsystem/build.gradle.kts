@@ -12,8 +12,8 @@ dependencies {
     implementation(projects.core.model)
 
     implementation(libs.androidx.compose.material3)
-    implementation(libs.coil.kt.compose)
-    implementation(libs.coil.network.okhttp)
+    api(libs.coil.kt.compose)
+    api(libs.coil.network.okhttp)
     implementation(libs.androidx.material.icons.extended.android)
     api(libs.lottie)
 }

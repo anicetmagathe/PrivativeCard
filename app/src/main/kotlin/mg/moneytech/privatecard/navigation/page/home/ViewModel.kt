@@ -1,5 +1,6 @@
 package mg.moneytech.privatecard.navigation.page.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.data.demo.DemoCategorie
@@ -61,11 +62,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state =
         MutableStateFlow(
-            HomeState(
-//                mainClubs = DemoClub.teams,
-//                matchs = DemoMatch.matchs,
-//                categories = DemoCategorie.categories
-            )
+            HomeState()
         )
     val state = _state.asStateFlow()
 
@@ -115,6 +112,7 @@ class HomeViewModel @Inject constructor(
 
             matchRepository.sync().fold(
                 onSuccess = {
+                    Log.d("PRIVATECARDLOG", "Match refreshed: ${matchRepository.get().first()}")
                     _state.update {
                         it.copy(loading = Loading.Ready, matchs = matchRepository.get().first())
                     }

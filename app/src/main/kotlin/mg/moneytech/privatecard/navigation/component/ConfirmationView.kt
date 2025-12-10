@@ -26,6 +26,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.airbnb.lottie.compose.rememberLottieComposition
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCAnimation
@@ -71,15 +72,15 @@ fun ConfirmationView(
             ) {
                 AnimatedVisibility(loading != Loading.Printing) {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Image(
-                            painter = painterResource(logoForClub(match.club1.logo)),
+                        AsyncImage(
+                            model = match.club1.logoUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillHeight,
                             modifier = Modifier.size(130.dp)
                         )
 
-                        Image(
-                            painter = painterResource(logoForClub(match.club2.logo)),
+                        AsyncImage(
+                            model = match.club2.logoUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillHeight,
                             modifier = Modifier.size(130.dp)
