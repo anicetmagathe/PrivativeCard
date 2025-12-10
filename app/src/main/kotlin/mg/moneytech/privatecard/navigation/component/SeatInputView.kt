@@ -26,6 +26,7 @@ import core.common.format
 import core.data.demo.DemoCategorie
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
+import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Categorie
 import core.ui.DevicePreviews
 
@@ -35,16 +36,16 @@ fun SeatInputView(
     categorie: Categorie,
     seatCount: String,
     priceTotal: Double,
-    ready: Boolean,
     onSeatCountChange: (String) -> Unit,
     onIncrementSeatCount: () -> Unit,
     onDecrementSeatCount: () -> Unit,
     onConfirm: () -> Unit,
     onBack: () -> Unit
 ) {
+    val localTheme = LocalAppTheme.current
     val priceStyle = MaterialTheme.typography.titleLarge.copy(
         fontSize = 35.sp,
-        color = MaterialTheme.colorScheme.primary,
+        color = Color(localTheme.foregroundColor),
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.Serif
     )
@@ -154,8 +155,8 @@ fun SeatInputView(
                 .height(56.dp),
             onClick = onConfirm,
             label = "PAYER",
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = Color(localTheme.foregroundColor),
+            contentColor = Color(localTheme.backgroundColor),
         )
     }
 }
@@ -169,7 +170,6 @@ private fun SeatInputViewPreview() {
             categorie = DemoCategorie.categories[0],
             seatCount = "",
             priceTotal = 12000.0,
-            ready = true,
             onSeatCountChange = {},
             onIncrementSeatCount = {},
             onDecrementSeatCount = {},
@@ -188,7 +188,6 @@ private fun SeatInputViewNotReadyPreview() {
             categorie = DemoCategorie.categories[0],
             seatCount = "",
             priceTotal = 12000.0,
-            ready = false,
             onSeatCountChange = {},
             onIncrementSeatCount = {},
             onDecrementSeatCount = {},

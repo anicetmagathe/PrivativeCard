@@ -1,5 +1,6 @@
 package mg.moneytech.privatecard.navigation.page.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -24,6 +26,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import core.data.demo.DemoClub
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
+import core.designsystem.theme.LocalAppTheme
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.component.ErrorDialog
 import mg.moneytech.privatecard.navigation.component.PickMatchView
@@ -69,11 +72,15 @@ private fun MatchPickPageImpl(
     onRefresh: () -> Unit,
     onChooseMatch: (Int) -> Unit
 ) {
+    val localTheme = LocalAppTheme.current
+
     Column(
-        modifier = modifier.padding(
-            top = innerPadding.calculateTopPadding(),
-            bottom = innerPadding.calculateBottomPadding()
-        )
+        modifier = modifier
+            .background(color = Color(localTheme.backgroundColor))
+            .padding(
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding()
+            )
     ) {
         Column(
             modifier = Modifier

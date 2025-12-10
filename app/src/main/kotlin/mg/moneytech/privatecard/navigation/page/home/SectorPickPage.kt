@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -35,6 +36,7 @@ import core.common.format
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
+import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Match
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.component.ConfirmationView
@@ -50,6 +52,7 @@ fun SectorPickPage(
     viewModel: HomeViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
+    val localTheme = LocalAppTheme.current
     val state by viewModel.state.collectAsState()
 
     val scaffoldState = rememberBottomSheetScaffoldState(
@@ -87,7 +90,6 @@ fun SectorPickPage(
                             categorie = match.categories[state.selectedCategorie],
                             seatCount = state.seatInput,
                             priceTotal = state.priceTotal,
-                            ready = state.ready,
                             onSeatCountChange = viewModel::updateSeatInput,
                             onIncrementSeatCount = viewModel::incrementSeatInput,
                             onDecrementSeatCount = viewModel::decrementSeatInput,
@@ -118,7 +120,7 @@ fun SectorPickPage(
 
                     withStyle(
                         SpanStyle(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = Color(localTheme.foregroundColor),
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = FontFamily.Serif
                         )
@@ -128,7 +130,7 @@ fun SectorPickPage(
 
                     append(" place(s) ")
 
-                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    withStyle(SpanStyle(color = Color(localTheme.foregroundColor))) {
                         append(match.categories[state.selectedCategorie].name)
                     }
 
@@ -136,7 +138,7 @@ fun SectorPickPage(
 
                     withStyle(
                         SpanStyle(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = Color(localTheme.foregroundColor),
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 30.sp,
                             fontFamily = FontFamily.Serif

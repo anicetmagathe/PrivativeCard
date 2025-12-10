@@ -17,16 +17,23 @@ data class Match(
 
     @SerialName("Libelle") val label: String,
 
+    @SerialName("Team1") val team1: String,
+
+    @SerialName("LogoTeam1") val logoTeam1: String,
+
+    @SerialName("Team2") val team2: String,
+
+    @SerialName("LogoTeam2") val logoTeam2: String,
+
     @SerialName("Description") val description: String,
 
     @SerialName("Categorie") val categories: List<Categorie>
 )
 
 fun Match.asExternal(): MatchEntity {
-    val clubNames = label.split(" vs ")
     return MatchEntity(
-        club1 = Club(name = clubNames[0], 0),
-        club2 = Club(name = clubNames[1], 0),
+        club1 = Club(name = team1, logo = 0, logoUrl = logoTeam1),
+        club2 = Club(name = team2, logo = 1, logoUrl = logoTeam2),
         date = this.dateTime.toLocalDateTime("dd/MM/yyyy HH:mm"),
         description = description,
         categories = categories.map {

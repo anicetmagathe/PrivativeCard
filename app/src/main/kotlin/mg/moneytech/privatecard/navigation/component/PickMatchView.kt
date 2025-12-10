@@ -1,16 +1,15 @@
 package mg.moneytech.privatecard.navigation.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,24 +19,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
+import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Club
 import core.model.entity.Match
 import core.ui.DevicePreviews
-import mg.moneytech.privatecard.navigation.logoForClub
 
 @Composable
 fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Unit) {
+    val localTheme = LocalAppTheme.current
+
     Card(
         modifier = modifier,
         onClick = onClick,
@@ -97,7 +98,14 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                     ClubView(modifier = Modifier, club = match.club2)
                 }
 
-                Button(onClick = onClick, shape = RoundedCornerShape(16.dp)) {
+                Button(
+                    onClick = onClick,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(localTheme.foregroundColor),
+                        contentColor = Color.White
+                    )
+                ) {
                     Text(text = "ACHETER TICKET", style = MaterialTheme.typography.bodyLarge)
                 }
 
@@ -114,11 +122,10 @@ private fun ClubView(modifier: Modifier = Modifier, club: Club) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Box(modifier = Modifier.size(25.dp), contentAlignment = Alignment.Center) {
-            Image(
-                painter = painterResource(logoForClub(club.logo)),
+            AsyncImage(
+                model = club.logoUrl,
                 contentDescription = null,
-                contentScale = ContentScale.FillHeight,
-                modifier = Modifier.fillMaxHeight()
+                contentScale = ContentScale.FillBounds,
             )
         }
 

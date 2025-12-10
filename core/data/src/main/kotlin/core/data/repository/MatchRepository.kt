@@ -1,18 +1,23 @@
 package core.data.repository
 
+import android.graphics.Color
 import core.data.demo.DemoCategorie
 import core.data.demo.DemoClub
 import core.model.entity.Club
 import core.model.entity.Match
+import core.model.entity.Theme
 import core.model.repository.MatchRepository
+import core.model.repository.ThemeRepository
 import core.network.NetworkDataSource
 import core.network.entity.asExternal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
+import androidx.core.graphics.toColorInt
 
 class MatchRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
+    private val themeRepository: ThemeRepository
 ) : MatchRepository {
     override suspend fun get(): Flow<List<Match>> {
         return _matches
@@ -25,6 +30,13 @@ class MatchRepositoryImpl @Inject constructor(
                 val similarClub1 = searchClub(match.club1.name).getOrNull(0)
                 val similarClub2 = searchClub(match.club2.name).getOrNull(0)
                 var categorieIndex = 0
+
+                themeRepository.set(
+                    theme = Theme(
+                        backgroundColor = result.backgroundColor.toColorInt(),
+                        foregroundColor = result.foregroundColor.toColorInt()
+                    )
+                )
 
                 match.copy(
                     club1 = match.club1.copy(logo = similarClub1?.logo ?: defaultLogo),

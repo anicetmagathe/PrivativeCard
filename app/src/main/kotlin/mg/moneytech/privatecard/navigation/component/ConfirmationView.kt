@@ -31,6 +31,7 @@ import core.data.demo.DemoMatch
 import core.designsystem.component.PCAnimation
 import core.designsystem.component.PCAnimations
 import core.designsystem.theme.AppTheme
+import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Match
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.logoForClub
@@ -46,6 +47,7 @@ fun ConfirmationView(
     onConfirm: () -> Unit,
     onCancel: () -> Unit
 ) {
+    val localTheme = LocalAppTheme.current
     val printingComposition by rememberLottieComposition(PCAnimations.Printing)
     val networkComposition by rememberLottieComposition(PCAnimations.LoadingFootball)
     val successComposition by rememberLottieComposition(PCAnimations.CheckSuccess)
@@ -122,6 +124,8 @@ fun ConfirmationView(
                                         modifier = Modifier.fillMaxWidth(),
                                         label = "CONFIRMER L'ACHAT",
                                         onClick = onConfirm,
+                                        containerColor = Color(localTheme.foregroundColor),
+                                        contentColor = Color(localTheme.backgroundColor)
                                     )
                                 }
                             }

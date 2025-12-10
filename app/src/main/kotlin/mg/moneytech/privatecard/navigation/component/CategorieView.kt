@@ -33,12 +33,14 @@ import core.common.format
 import core.data.demo.DemoCategorie
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
+import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Categorie
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.logoForCategorie
 
 @Composable
 fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
+    val localTheme = LocalAppTheme.current
     val logo by remember { mutableIntStateOf(logoForCategorie(categorie.id)) }
 
     Row(
@@ -75,7 +77,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
             Text(
                 text = "${categorie.price.format()} €",
                 style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Color(localTheme.foregroundColor),
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = FontFamily.Serif
                 ),

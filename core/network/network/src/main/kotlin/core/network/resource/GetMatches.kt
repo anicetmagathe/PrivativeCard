@@ -17,6 +17,10 @@ object GetMatches {
 
         @SerialName("ErrorMessage") override val errorMessage: String,
 
+        @SerialName("BackColor") val backgroundColor: String,
+
+        @SerialName("FrontColor") val foregroundColor: String,
+
         @SerialName("Matches") val matches: List<Match>
     ) : ApiResponse
 }

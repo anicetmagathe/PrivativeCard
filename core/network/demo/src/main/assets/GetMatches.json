@@ -1,23 +1,29 @@
 {
   "ErrorCode": "0",
   "ErrorMessage": "",
+  "BackColor": "#f5f3f3",
+  "FrontColor": "#086db4",
   "Matches": [
     {
       "Stade": "RCDE Stadium",
       "Date": "07/12/2025 20:30",
       "Libelle": "ESPANYOL vs RAYO VALLECANO",
+      "Team1": "ESPANYOL",
+      "LogoTeam1": "https://upload.wikimedia.org/wikipedia/en/thumb/9/92/RCD_Espanyol_crest.svg/330px-RCD_Espanyol_crest.svg.png",
+      "Team2": " RAYO VALLECANO",
+      "LogoTeam2": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d8/Rayo_Vallecano_logo.svg/330px-Rayo_Vallecano_logo.svg.png",
       "Description": "LIGA 15e Journée",
       "Categorie": [
         {
           "Libelle": "Tribune",
           "Description": "Tribune VIP",
-          "Prix": "40.00",
+          "Prix": 40,
           "Devise": "Euros"
         },
         {
           "Libelle": "Gradin",
           "Description": "Tribune public",
-          "Prix": "20.00",
+          "Prix": 20,
           "Devise": "Euros"
         }
       ]
@@ -26,24 +32,28 @@
       "Stade": "BERNABEU",
       "Date": "07/12/2025 23:00",
       "Libelle": "REAL MADRID vs CELTA VIGO",
+      "Team1": "REAL MADRID",
+      "LogoTeam1": "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/330px-Real_Madrid_CF.svg.png",
+      "Team2": "CELTA VIGO",
+      "LogoTeam2": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/330px-RC_Celta_de_Vigo_logo.svg.png",
       "Description": "LIGA 15e Journée",
       "Categorie": [
         {
           "Libelle": "Tribune centrale",
           "Description": "Tribune VIP",
-          "Prix": "50.00",
+          "Prix": 50,
           "Devise": "Euros"
         },
         {
           "Libelle": "Virage ouest",
           "Description": "Reservé visiteurs",
-          "Prix": "25.00",
+          "Prix": 25,
           "Devise": "Euros"
         },
         {
           "Libelle": "Virage sud",
           "Description": "Ultra Madrid",
-          "Prix": "30.00",
+          "Prix": 30,
           "Devise": "Euros"
         }
       ]

@@ -2,6 +2,8 @@ package mg.moneytech.privatecard.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import core.model.entity.Theme
+import core.model.repository.ThemeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,11 +17,12 @@ enum class Page {
     Pick
 }
 
-data class MainState(val page: Page = Page.Home)
+data class MainState(val page: Page = Page.Home, val theme: Theme = Theme())
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val currentPageRepository: CurrentPageRepository
+    private val currentPageRepository: CurrentPageRepository,
+    private val themeRepository: ThemeRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
@@ -28,6 +31,12 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             currentPageRepository.current.collect { page ->
                 _state.update { it.copy(page = page) }
+            }
+        }
+
+        viewModelScope.launch {
+            themeRepository.get().collect { theme ->
+                _state.update { it.copy(theme = theme) }
             }
         }
     }

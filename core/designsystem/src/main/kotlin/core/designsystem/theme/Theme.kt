@@ -7,8 +7,11 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import core.model.entity.Theme
 
 private val DarkColorScheme = darkColorScheme(
     primary = green,
@@ -26,8 +29,13 @@ private val LightColorScheme = lightColorScheme(
     tertiary = green
 )
 
+val LocalAppTheme = staticCompositionLocalOf {
+    Theme()
+}
+
 @Composable
 fun AppTheme(
+    theme: Theme = Theme(),
     darkTheme: Boolean = /*isSystemInDarkTheme()*/false,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
@@ -43,9 +51,11 @@ fun AppTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalAppTheme provides theme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

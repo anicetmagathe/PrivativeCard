@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mg.moneytech.privatecard.navigation.Page
 import mg.moneytech.privatecard.repository.CurrentPageRepository
-import okhttp3.internal.toLongOrDefault
 import javax.inject.Inject
 
 enum class BuyPage {
@@ -144,7 +143,7 @@ class HomeViewModel @Inject constructor(
 
     fun incrementSeatInput() {
         _state.update {
-            val currentSeatCount = it.seatInput.toLongOrDefault(0)
+            val currentSeatCount = it.seatInput.toLongOrNull() ?: 0
 
             val seatCount = if (currentSeatCount < maxSeatCount) {
                 currentSeatCount + 1

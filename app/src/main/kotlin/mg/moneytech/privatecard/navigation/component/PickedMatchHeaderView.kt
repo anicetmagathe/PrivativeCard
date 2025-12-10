@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
@@ -102,8 +103,8 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Image(
-                        painter = painterResource(logoForClub(match.club1.logo)),
+                    AsyncImage(
+                        model = match.club1,
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)
@@ -145,8 +146,8 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Image(
-                        painter = painterResource(logoForClub(match.club2.logo)),
+                    AsyncImage(
+                        model = match.club2,
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)

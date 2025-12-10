@@ -14,7 +14,7 @@ data class Categorie(
 
     @SerialName("Description") val description: String,
 
-    @SerialName("Prix") val price: String,
+    @SerialName("Prix") val price: Double,
 
     @SerialName("Devise") val currency: String,
 )
@@ -24,7 +24,7 @@ fun Categorie.asExternal(): CategorieEntity {
         id = 0,
         name = label,
         description = description,
-        price = price.toDouble(),
+        price = price,
         sector = Sector(0),
         available = 10
     )
