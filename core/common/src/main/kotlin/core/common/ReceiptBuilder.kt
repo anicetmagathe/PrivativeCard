@@ -1,7 +1,11 @@
 package core.common
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import androidx.core.graphics.createBitmap
 
 // Domain Model - represents what can be drawn

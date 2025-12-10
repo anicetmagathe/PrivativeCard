@@ -1,13 +1,13 @@
 package core.async.di
 
+import core.async.Dispatcher
+import core.async.InDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import core.async.Dispatcher
-import core.async.InDispatchers
 
 @Module
 @InstallIn(SingletonComponent::class)

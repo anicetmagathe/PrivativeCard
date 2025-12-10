@@ -1,7 +1,5 @@
 package mg.moneytech.privatecard.navigation.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +11,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,12 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
@@ -36,7 +31,6 @@ import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
 import core.model.entity.Match
 import core.ui.DevicePreviews
-import mg.moneytech.privatecard.navigation.logoForClub
 
 @Composable
 fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: () -> Unit) {

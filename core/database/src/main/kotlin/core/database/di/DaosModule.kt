@@ -1,11 +1,11 @@
 package core.database.di
 
+import core.database.TemplateDatabase
+import core.database.dao.TemplateDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import core.database.TemplateDatabase
-import core.database.dao.TemplateDao
 
 @Module
 @InstallIn(SingletonComponent::class)

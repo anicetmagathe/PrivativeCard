@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.Packaging
 import mg.anet.template.VersionInfo
 
 plugins {

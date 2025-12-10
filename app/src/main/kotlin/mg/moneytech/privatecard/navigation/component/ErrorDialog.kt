@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import core.designsystem.theme.AppTheme
 import core.ui.DevicePreviews
-import kotlin.let
 
 @Composable
 fun ErrorDialog(

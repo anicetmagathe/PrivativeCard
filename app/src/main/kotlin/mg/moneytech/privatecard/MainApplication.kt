@@ -1,7 +1,6 @@
 package mg.moneytech.privatecard
 
 import android.app.Application
-import androidx.compose.ui.platform.LocalContext
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader

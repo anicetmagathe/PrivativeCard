@@ -1,6 +1,5 @@
 package mg.moneytech.privatecard.navigation.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,31 +19,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
-import coil3.compose.AsyncImage
-import coil3.intercept.Interceptor
-import coil3.network.NetworkHeaders
-import coil3.network.httpHeaders
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
-import core.designsystem.R
 import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Club
 import core.model.entity.Match
 import core.ui.DevicePreviews
-import okhttp3.Headers
 
 @Composable
 fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Unit) {

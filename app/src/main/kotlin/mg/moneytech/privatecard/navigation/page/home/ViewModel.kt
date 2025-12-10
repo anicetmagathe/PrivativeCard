@@ -3,9 +3,6 @@ package mg.moneytech.privatecard.navigation.page.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import core.data.demo.DemoCategorie
-import core.data.demo.DemoClub
-import core.data.demo.DemoMatch
 import core.domain.PrintTicketUseCase
 import core.domain.ValidateSeatCountUseCase
 import core.model.entity.Categorie
@@ -13,7 +10,6 @@ import core.model.entity.MainClub
 import core.model.entity.Match
 import core.model.repository.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first

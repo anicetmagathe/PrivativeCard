@@ -18,12 +18,6 @@ import core.network.demo.AssetManager
 import java.io.File
 import java.io.InputStream
 import java.util.Properties
-import kotlin.apply
-import kotlin.io.inputStream
-import kotlin.io.use
-import kotlin.jvm.javaClass
-import kotlin.text.trimIndent
-import kotlin.toString
 
 /**
  * This class helps with loading Android `/assets` files, especially when running JVM unit tests.
