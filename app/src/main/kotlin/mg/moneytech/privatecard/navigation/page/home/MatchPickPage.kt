@@ -103,6 +103,7 @@ private fun MatchPickPageImpl(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(vertical = 8.dp),
                 ) {
                     itemsIndexed(state.matchs) { index, match ->
                         PickMatchView(

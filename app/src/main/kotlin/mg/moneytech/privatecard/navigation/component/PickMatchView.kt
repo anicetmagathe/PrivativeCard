@@ -133,11 +133,9 @@ private fun ClubView(modifier: Modifier = Modifier, club: Club) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Box(modifier = Modifier.size(25.dp), contentAlignment = Alignment.Center) {
-            AsyncImage(
+            LoadableImage(
                 model = club.logoUrl,
                 contentDescription = null,
-                placeholder = painterResource(R.drawable.austria_bundesliga_grazer_ak_1902),
-                error = painterResource(R.drawable.italy_serie_a_juventus_fc),
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier.size(25.dp)
             )

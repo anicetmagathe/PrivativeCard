@@ -72,14 +72,14 @@ fun ConfirmationView(
             ) {
                 AnimatedVisibility(loading != Loading.Printing) {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        AsyncImage(
+                        LoadableImage(
                             model = match.club1.logoUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillHeight,
                             modifier = Modifier.size(130.dp)
                         )
 
-                        AsyncImage(
+                        LoadableImage(
                             model = match.club2.logoUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillHeight,
