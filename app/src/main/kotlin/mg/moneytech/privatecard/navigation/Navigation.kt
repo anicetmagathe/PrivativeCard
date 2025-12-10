@@ -8,8 +8,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import core.designsystem.theme.LocalAppTheme
+import mg.moneytech.privatecard.navigation.component.PrintView
+import mg.moneytech.privatecard.navigation.component.UndismissableDialog
 import mg.moneytech.privatecard.navigation.page.home.MatchPickPage
 import mg.moneytech.privatecard.navigation.page.home.SectorPickPage
 
@@ -36,5 +40,17 @@ fun Navigation(
                 )
             }
         }
+    }
+
+    if (state.showLatestTicket) {
+        state.receiptImage?.let {
+            UndismissableDialog {
+                PrintView(
+                    painter = BitmapPainter(it.asImageBitmap()),
+                    onHide = viewModel::hideReceipt
+                )
+            }
+        }
+
     }
 }

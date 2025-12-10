@@ -1,7 +1,10 @@
 package mg.moneytech.privatecard.navigation.page.home
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.domain.ValidateSeatCountUseCase
@@ -9,6 +12,7 @@ import core.model.entity.Categorie
 import core.model.entity.Match
 import core.model.repository.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -19,6 +23,8 @@ import mg.anet.dll.device.printer.Printer
 import mg.moneytech.privatecard.navigation.Page
 import mg.moneytech.privatecard.receipt.ReceiptFormater
 import mg.moneytech.privatecard.repository.CurrentPageRepository
+import mg.moneytech.privatecard.repository.ReceiptRepository
+import mg.moneytech.privatecard.repository.ReceiptVisibilityRepository
 import javax.inject.Inject
 
 enum class BuyPage {
@@ -56,7 +62,10 @@ class HomeViewModel @Inject constructor(
     private val currentPageRepository: CurrentPageRepository,
     private val validateSeatCount: ValidateSeatCountUseCase,
     private val printer: Printer,
-    private val receiptFormater: ReceiptFormater
+    private val receiptFormater: ReceiptFormater,
+    private val receiptVisibilityRepository: ReceiptVisibilityRepository,
+    private val receiptRepository: ReceiptRepository,
+    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
     private val _state =
         MutableStateFlow(
@@ -211,6 +220,7 @@ class HomeViewModel @Inject constructor(
             val count = state.value.seatInput.toLong()
 
             val bitmap = receiptFormater.generateSale(match, categorie, count)
+            receiptRepository.set(bitmap)
             _state.update {
                 it.copy(ticket = bitmap)
             }
@@ -218,13 +228,17 @@ class HomeViewModel @Inject constructor(
             val printResult = printer.print(bitmap).getOrThrow()
 
             when (printResult) {
-                PrintResult.Success -> _state.update {
-                    it.copy(
-                        buyPage = BuyPage.Categorie,
-                        showConfirmation = false,
-                        ready = false,
-                        loading = Loading.Ready
-                    )
+                PrintResult.Success -> {
+                    _state.update {
+                        it.copy(
+                            buyPage = BuyPage.Categorie,
+                            showConfirmation = false,
+                            ready = false,
+                            loading = Loading.Ready
+                        )
+                    }
+
+                    receiptVisibilityRepository.show()
                 }
 
                 else -> _state.update {
@@ -245,6 +259,11 @@ class HomeViewModel @Inject constructor(
 
     private fun selectedCategorie(): Categorie {
         return selectedMatch().categories[state.value.selectedCategorie]
+    }
+
+    private fun dpToPx(dp: Dp): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp.value * density).toInt()
     }
 
     private fun getPrice(count: Long): Double {

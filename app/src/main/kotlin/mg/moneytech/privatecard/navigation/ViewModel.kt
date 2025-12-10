@@ -1,5 +1,6 @@
 package mg.moneytech.privatecard.navigation
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.model.entity.Theme
@@ -10,6 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mg.moneytech.privatecard.repository.CurrentPageRepository
+import mg.moneytech.privatecard.repository.ReceiptRepository
+import mg.moneytech.privatecard.repository.ReceiptVisibilityRepository
 import javax.inject.Inject
 
 enum class Page {
@@ -17,12 +20,19 @@ enum class Page {
     Pick
 }
 
-data class MainState(val page: Page = Page.Home, val theme: Theme = Theme())
+data class MainState(
+    val page: Page = Page.Home,
+    val theme: Theme = Theme(),
+    val showLatestTicket: Boolean = false,
+    val receiptImage: Bitmap? = null
+)
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val currentPageRepository: CurrentPageRepository,
-    private val themeRepository: ThemeRepository
+    private val themeRepository: ThemeRepository,
+    private val receiptRepository: ReceiptRepository,
+    private val receiptVisibilityRepository: ReceiptVisibilityRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
@@ -39,6 +49,18 @@ class MainViewModel @Inject constructor(
                 _state.update { it.copy(theme = theme) }
             }
         }
+
+        viewModelScope.launch {
+            receiptRepository.current.collect { bitmap ->
+                _state.update { it.copy(receiptImage = bitmap) }
+            }
+        }
+
+        viewModelScope.launch {
+            receiptVisibilityRepository.visible.collect { visible ->
+                _state.update { it.copy(showLatestTicket = visible) }
+            }
+        }
     }
 
     fun back() {
@@ -48,5 +70,9 @@ class MainViewModel @Inject constructor(
                 currentPageRepository.set(Page.Home)
             }
         }
+    }
+
+    fun hideReceipt() {
+        receiptVisibilityRepository.hide()
     }
 }
