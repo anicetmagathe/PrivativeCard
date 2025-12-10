@@ -44,7 +44,7 @@ dependencies {
     implementation(projects.core.async)
     implementation(projects.core.domain)
     implementation(projects.core.data)
-    implementation(projects.core.designsystem)
+    api(projects.core.designsystem)
     implementation(projects.core.ui)
 
     implementation(libs.androidx.activity.compose)
