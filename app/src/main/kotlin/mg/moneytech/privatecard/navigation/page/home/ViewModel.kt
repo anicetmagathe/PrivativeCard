@@ -1,12 +1,11 @@
 package mg.moneytech.privatecard.navigation.page.home
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import core.domain.PrintTicketUseCase
 import core.domain.ValidateSeatCountUseCase
 import core.model.entity.Categorie
-import core.model.entity.MainClub
 import core.model.entity.Match
 import core.model.repository.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +14,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import mg.anet.dll.device.printer.PrintResult
+import mg.anet.dll.device.printer.Printer
 import mg.moneytech.privatecard.navigation.Page
+import mg.moneytech.privatecard.receipt.ReceiptFormater
 import mg.moneytech.privatecard.repository.CurrentPageRepository
 import javax.inject.Inject
 
@@ -35,10 +37,8 @@ enum class Loading {
 data class Price(val count: Long, val price: Long)
 
 data class HomeState(
-    val mainClubs: List<MainClub> = emptyList(),
     val matchs: List<Match> = emptyList(),
     val selectedMatch: Int = -1,
-//    val categories: List<Categorie>,
     val selectedCategorie: Int = -1,
     val buyPage: BuyPage = BuyPage.Categorie,
     val seatInput: String = "",
@@ -46,6 +46,7 @@ data class HomeState(
     val ready: Boolean = false,
     val showConfirmation: Boolean = false,
     val loading: Loading = Loading.Ready,
+    val ticket: Bitmap? = null,
     val error: String? = null
 )
 
@@ -54,7 +55,8 @@ class HomeViewModel @Inject constructor(
     private val matchRepository: MatchRepository,
     private val currentPageRepository: CurrentPageRepository,
     private val validateSeatCount: ValidateSeatCountUseCase,
-    private val printTicketUseCase: PrintTicketUseCase,
+    private val printer: Printer,
+    private val receiptFormater: ReceiptFormater
 ) : ViewModel() {
     private val _state =
         MutableStateFlow(
@@ -208,26 +210,29 @@ class HomeViewModel @Inject constructor(
             val categorie = selectedCategorie()
             val count = state.value.seatInput.toLong()
 
+            val bitmap = receiptFormater.generateSale(match, categorie, count)
+            _state.update {
+                it.copy(ticket = bitmap)
+            }
 
-            printTicketUseCase(match, categorie, count).fold(
-                onSuccess = {
-                    _state.update {
-                        it.copy(
-                            buyPage = BuyPage.Categorie,
-                            showConfirmation = false,
-                            ready = false,
-                            loading = Loading.Ready
-                        )
-                    }
-                },
-                onFailure = {
-                    _state.update {
-                        it.copy(
-                            loading = Loading.Ready
-                        )
-                    }
+            val printResult = printer.print(bitmap).getOrThrow()
+
+            when (printResult) {
+                PrintResult.Success -> _state.update {
+                    it.copy(
+                        buyPage = BuyPage.Categorie,
+                        showConfirmation = false,
+                        ready = false,
+                        loading = Loading.Ready
+                    )
                 }
-            )
+
+                else -> _state.update {
+                    it.copy(
+                        loading = Loading.Ready
+                    )
+                }
+            }
 
             currentPageRepository.set(Page.Home)
         }

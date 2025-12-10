@@ -1,5 +1,6 @@
 package mg.anet.dll.device
 
+import android.graphics.Bitmap
 import com.nexgo.oaf.apiv3.device.printer.AlignEnum
 import com.nexgo.oaf.apiv3.device.printer.GrayLevelEnum
 import mg.anet.dll.device.printer.Image
@@ -19,26 +20,12 @@ import com.nexgo.oaf.apiv3.device.printer.Printer as IPrinter
 class PrinterImpl @Inject constructor(
     private val printer: IPrinter
 ) : Printer {
-    override suspend fun print(datas: List<PrinterData>): Result<PrintResult> =
+    override suspend fun print(bitmap: Bitmap): Result<PrintResult> =
         suspendCoroutine { continuation ->
             with(printer) {
                 initPrinter()
                 setGray(GrayLevelEnum.LEVEL_4)
-                datas.forEach { data ->
-                    val alignment = when (data.style.alignment) {
-                        Style.Alignment.Left -> AlignEnum.LEFT
-                        Style.Alignment.Right -> AlignEnum.RIGHT
-                        Style.Alignment.Center -> AlignEnum.CENTER
-                    }
-                    when (data) {
-                        is Image -> appendImage(data.image, alignment)
-                        is Labeled -> {}
-                        is Line -> {}
-                        is Newline -> {}
-                        is Text -> {}
-                    }
-                }
-
+                appendImage(bitmap, AlignEnum.CENTER)
                 startPrint(
                     true
                 ) { continuation.resume(Result.success(PrintResult.Success)) }

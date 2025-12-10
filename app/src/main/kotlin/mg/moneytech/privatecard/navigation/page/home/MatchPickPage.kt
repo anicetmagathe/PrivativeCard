@@ -126,7 +126,6 @@ private fun MatchPickPagePreview() {
         MatchPickPageImpl(
             modifier = Modifier.fillMaxSize(),
             state = HomeState(
-                mainClubs = DemoClub.teams,
                 matchs = DemoMatch.matchs,
             ),
             onRefresh = {},
