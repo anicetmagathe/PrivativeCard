@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,10 +22,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.rememberLottieComposition
+import core.common.format
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCAnimation
 import core.designsystem.component.PCAnimations
@@ -67,19 +70,15 @@ fun ConfirmationView(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AnimatedVisibility(loading != Loading.Printing) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        LoadableImage(
-                            model = match.club1.logoUrl,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillHeight,
-                            modifier = Modifier.size(130.dp)
-                        )
-
-                        LoadableImage(
-                            model = match.club2.logoUrl,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillHeight,
-                            modifier = Modifier.size(130.dp)
+                    ClubVsView(modifier = Modifier.fillMaxWidth(), match = match) {
+                        Text(
+                            modifier = Modifier.weight(0.2f),
+                            text = match.date.format("HH:mm"),
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center
+                            )
                         )
                     }
                 }

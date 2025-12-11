@@ -1,12 +1,12 @@
 package mg.moneytech.privatecard.navigation.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,20 +18,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
-import core.model.entity.Club
 import core.model.entity.Match
 import core.ui.DevicePreviews
 import mg.moneytech.privatecard.R
@@ -63,84 +62,58 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = match.date.format("EEEE")
-                            .upperCaseFirst() + match.date.format(" à kk:mm"),
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
+                        text = match.date.format("EEEE").upperCaseFirst(),
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
                     )
-                    Text(text = buildAnnotatedString {
-                        append("${match.description} • ")
-                        withStyle(
-                            SpanStyle(
-                                color = Color.DarkGray,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        ) {
-                            append(match.stadium.name)
-                        }
-                    })
+                    Text(
+                        text = buildAnnotatedString {
+                            append("${match.description} • ")
+                            withStyle(
+                                SpanStyle(
+                                    color = Color.DarkGray,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            ) {
+                                append(match.stadium.name)
+                            }
+                        },
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal)
+                    )
                 }
 
             }
 
-            DashedDivider(color = Color.LightGray)
+            ClubVsView(modifier = Modifier.fillMaxWidth(), match = match) {
+                Text(
+                    modifier = Modifier.weight(0.2f),
+                    text = match.date.format("HH:mm"),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                )
+            }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+
+
+            Button(
+                onClick = onClick,
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(localTheme.foregroundColor),
+                    contentColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
             ) {
-
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    ClubView(modifier = Modifier, club = match.club1)
-
-                    ClubView(modifier = Modifier, club = match.club2)
-                }
-
-                Button(
-                    onClick = onClick,
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(localTheme.foregroundColor),
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text(text = stringResource(R.string.buy_ticket), style = MaterialTheme.typography.bodyLarge)
-                }
-
+                Text(
+                    text = stringResource(R.string.buy_ticket),
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
-    }
-}
-
-@Composable
-private fun ClubView(modifier: Modifier = Modifier, club: Club) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Box(modifier = Modifier.size(25.dp), contentAlignment = Alignment.Center) {
-            LoadableImage(
-                model = club.logoUrl,
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(25.dp)
-            )
-        }
-
-        Text(
-            modifier = Modifier.weight(1f),
-            text = club.name,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Bold
-            ),
-            minLines = 1,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
     }
 }
 

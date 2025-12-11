@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
@@ -87,32 +88,17 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
 
             }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    LoadableImage(
-                        model = match.club1.logoUrl,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .align(Alignment.Start),
-                        contentScale = ContentScale.FillHeight
+            ClubVsView(modifier = Modifier.fillMaxWidth(), match = match) {
+                /*Text(
+                    modifier = Modifier.weight(0.2f),
+                    text = match.date.format("HH:mm"),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
-
-                    Text(
-                        text = match.club1.name,
-                        modifier = Modifier.align(Alignment.Start),
-                        style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Start)
-                    )
-                }
-
+                )
+*/
                 Card(
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(
@@ -133,29 +119,6 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                         )
                     }
                 }
-
-
-
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    LoadableImage(
-                        model = match.club2.logoUrl,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .align(Alignment.End),
-                        contentScale = ContentScale.FillHeight
-                    )
-
-                    Text(
-                        text = match.club2.name,
-                        modifier = Modifier.align(Alignment.End),
-                        style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.End)
-                    )
-                }
-
             }
         }
 

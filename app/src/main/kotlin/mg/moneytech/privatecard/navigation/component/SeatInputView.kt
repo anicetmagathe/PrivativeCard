@@ -89,11 +89,11 @@ fun SeatInputView(
                     ) {
                         Text(
                             text = categorie.name,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
                             text = categorie.description,
-                            style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
+                            style = MaterialTheme.typography.titleMedium.copy(color = Color.DarkGray)
                         )
                     }
 

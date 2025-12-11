@@ -64,13 +64,13 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
             Column {
                 Text(
                     text = categorie.name,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     maxLines = 1
                 )
 
                 Text(
                     text = categorie.description,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     maxLines = 1
                 )
             }
