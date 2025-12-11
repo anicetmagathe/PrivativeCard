@@ -12,3 +12,8 @@ fun String.upperCaseFirst(): String {
     return split(" ")
         .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
 }
+
+fun String.takeOrEmpty(prefix: String = " "): String {
+    return takeIf { it.isNotEmpty() }
+        ?.let { "${prefix}${it.upperCaseFirst()}" }.orEmpty()
+}

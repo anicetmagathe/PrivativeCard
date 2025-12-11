@@ -18,17 +18,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.common.format
+import core.common.takeOrEmpty
 import core.data.demo.DemoCategorie
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Categorie
 import core.ui.DevicePreviews
+import mg.moneytech.privatecard.R
 
 @Composable
 fun SeatInputView(
@@ -99,12 +102,12 @@ fun SeatInputView(
                         horizontalAlignment = Alignment.End
                     ) {
                         Text(
-                            text = "Prix Unitaire",
+                            text = stringResource(R.string.unit_price),
                             style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray)
                         )
 
                         Text(
-                            text = "${categorie.price.format()} €",
+                            text = "${categorie.price.format()}${categorie.currency.name.takeOrEmpty()}",
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.SemiBold,
                             )
@@ -117,7 +120,7 @@ fun SeatInputView(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Prix Total  ",
+                    text = stringResource(R.string.total_price),
                     style = MaterialTheme.typography.titleLarge,
                 )
 
@@ -131,7 +134,7 @@ fun SeatInputView(
                         style = priceStyle
                     )
 
-                    Text(text = " €", style = priceStyle)
+                    Text(text = categorie.currency.name.takeOrEmpty(), style = priceStyle)
                 }
             }
 
@@ -152,7 +155,7 @@ fun SeatInputView(
                 .fillMaxWidth()
                 .height(56.dp),
             onClick = onConfirm,
-            label = "PAYER",
+            label = stringResource(R.string.pay),
             containerColor = Color(localTheme.foregroundColor),
             contentColor = Color(localTheme.backgroundColor),
         )

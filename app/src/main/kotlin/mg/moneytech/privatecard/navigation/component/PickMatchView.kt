@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +34,7 @@ import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Club
 import core.model.entity.Match
 import core.ui.DevicePreviews
+import mg.moneytech.privatecard.R
 
 @Composable
 fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Unit) {
@@ -105,7 +107,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                         contentColor = Color.White
                     )
                 ) {
-                    Text(text = "ACHETER TICKET", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = stringResource(R.string.buy_ticket), style = MaterialTheme.typography.bodyLarge)
                 }
 
             }

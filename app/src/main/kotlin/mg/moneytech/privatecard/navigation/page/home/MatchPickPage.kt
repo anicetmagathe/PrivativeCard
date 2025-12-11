@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -28,6 +29,7 @@ import core.data.demo.DemoMatch
 import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
 import core.ui.DevicePreviews
+import mg.moneytech.privatecard.R
 import mg.moneytech.privatecard.navigation.component.ErrorDialog
 import mg.moneytech.privatecard.navigation.component.PickMatchView
 
@@ -89,7 +91,7 @@ private fun MatchPickPageImpl(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Prochain match",
+                text = stringResource(R.string.next_match),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
             )
 

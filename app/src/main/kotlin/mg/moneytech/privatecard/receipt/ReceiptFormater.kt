@@ -24,6 +24,7 @@ import core.common.BarcodeFormat
 import core.common.ReceiptBuilder
 import core.common.format
 import core.common.generateBarcodeBitmap
+import core.common.takeOrEmpty
 import core.common.upperCaseFirst
 import core.data.demo.DemoCategorie
 import core.data.demo.DemoMatch
@@ -34,6 +35,7 @@ import core.model.entity.Match
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import mg.moneytech.privatecard.R.*
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -65,6 +67,9 @@ private fun buildTicket(
     size: Int = 1200
 ): Bitmap {
     val ticketDateTime = LocalDateTime.now()
+    val s = { id: Int ->
+        context.getString(id)
+    }
 
     return ReceiptBuilder(size)
         .setMargin(30, 20)
@@ -89,7 +94,7 @@ private fun buildTicket(
         .addParagraph()
         .addParagraph()
         .setAlign(Paint.Align.CENTER)
-        .addText("MATCH", false)
+        .addText(s(string.game), false)
         .addLine(lineChar = '=')
         .setAlign(Paint.Align.LEFT)
         .addText(
@@ -117,19 +122,21 @@ private fun buildTicket(
         .addParagraph()
         .addParagraph()
         .setAlign(Paint.Align.LEFT)
-        .addText("PRIX UNITAIRE", false)
-        .setAlign(Paint.Align.RIGHT).addText("${categorie.price.format()} €")
+        .addText(s(string.unit_price), false)
+        .setAlign(Paint.Align.RIGHT)
+        .addText("${categorie.price.format()}${categorie.currency.name.takeOrEmpty()}")
         .setAlign(Paint.Align.LEFT)
-        .addText("NOMBRE", false)
+        .addText(s(string.count), false)
         .setAlign(Paint.Align.RIGHT)
         .addText("x $count")
         .setAlign(Paint.Align.LEFT)
         .addParagraph()
         .setAlign(Paint.Align.LEFT)
         .setTextSize(120f)
-        .addText("TOTAL", false)
+        .addText(s(string.total), false)
         .setTypeface(context, "fonts/roboto_bold.ttf")
-        .setAlign(Paint.Align.RIGHT).addText("${(categorie.price * count).format()} €")
+        .setAlign(Paint.Align.RIGHT)
+        .addText("${(categorie.price * count).format()}${categorie.currency.name.takeOrEmpty()}")
         .addParagraph()
         .setTextSize(80f)
         .addLine(lineChar = '%')

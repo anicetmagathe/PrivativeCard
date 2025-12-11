@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import core.common.format
+import core.common.takeOrEmpty
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
@@ -120,8 +121,7 @@ fun SectorPickPage(
                     withStyle(
                         SpanStyle(
                             color = Color(localTheme.foregroundColor),
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = FontFamily.Serif
+                            fontWeight = FontWeight.SemiBold
                         )
                     ) {
                         append("${state.seatInput.toLong()}")
@@ -139,11 +139,10 @@ fun SectorPickPage(
                         SpanStyle(
                             color = Color(localTheme.foregroundColor),
                             fontWeight = FontWeight.SemiBold,
-                            fontSize = 30.sp,
-                            fontFamily = FontFamily.Serif
+                            fontSize = 30.sp
                         )
                     ) {
-                        append("${state.priceTotal.format()} €")
+                        append("${state.priceTotal.format()}${state.matchs[state.selectedMatch].categories[state.selectedCategorie].currency.name.takeOrEmpty()}")
                     }
 
                     append(" ?")

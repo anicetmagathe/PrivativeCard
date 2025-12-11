@@ -29,7 +29,9 @@ fun Navigation(
         viewModel.back()
     }
 
-    CompositionLocalProvider(LocalAppTheme provides state.theme) {
+    CompositionLocalProvider(
+        LocalAppTheme provides state.theme
+    ) {
         AnimatedContent(state.page) {
             when (it) {
                 Page.Home -> MatchPickPage(modifier = modifier, innerPadding = innerPadding)

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PrivateCard</string>
+    <string name="buy_ticket">ACHETER TICKET</string>
+    <string name="next_match">Prochain Matchs</string>
+    <string name="unit_price">Prix Unitaire</string>
+    <string name="count">Nombre</string>
+    <string name="total_price">Prix Total</string>
+    <string name="total">Total</string>
+    <string name="game">Match</string>
+    <string name="pay">PAYER</string>
 </resources>

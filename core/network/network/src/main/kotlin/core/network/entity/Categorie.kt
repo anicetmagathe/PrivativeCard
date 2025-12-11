@@ -2,6 +2,7 @@
 
 package core.network.entity
 
+import core.model.entity.Currency
 import core.model.entity.Sector
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -25,6 +26,7 @@ fun Categorie.asExternal(): CategorieEntity {
         name = label,
         description = description,
         price = price,
+        currency = Currency(name = currency),
         sector = Sector(0),
         available = 10
     )

@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.common.format
+import core.common.takeOrEmpty
+import core.common.upperCaseFirst
 import core.data.demo.DemoCategorie
 import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
@@ -74,8 +76,10 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
             }
 
 
+
+
             Text(
-                text = "${categorie.price.format()} €",
+                text = "${categorie.price.format()}${categorie.currency.name.takeOrEmpty()}",
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = Color(localTheme.foregroundColor),
                     fontWeight = FontWeight.SemiBold

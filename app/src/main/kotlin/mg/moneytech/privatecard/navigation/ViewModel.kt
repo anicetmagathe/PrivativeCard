@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
     private val currentPageRepository: CurrentPageRepository,
     private val themeRepository: ThemeRepository,
     private val receiptRepository: ReceiptRepository,
-    private val receiptVisibilityRepository: ReceiptVisibilityRepository
+    private val receiptVisibilityRepository: ReceiptVisibilityRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
