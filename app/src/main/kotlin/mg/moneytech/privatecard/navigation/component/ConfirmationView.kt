@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.rememberLottieComposition
 import core.common.format
+import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
 import core.designsystem.component.PCAnimation
 import core.designsystem.component.PCAnimations
@@ -70,17 +71,29 @@ fun ConfirmationView(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AnimatedVisibility(loading != Loading.Printing) {
-                    ClubVsView(modifier = Modifier.fillMaxWidth(), match = match) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
                         Text(
-                            modifier = Modifier.weight(0.2f),
-                            text = match.date.format("HH:mm"),
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontSize = 28.sp,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center
-                            )
+                            text = match.date.format("EEEE dd MMMM").upperCaseFirst(),
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
                         )
+
+                        ClubVsView(modifier = Modifier.fillMaxWidth(), match = match) {
+                            Text(
+                                modifier = Modifier.weight(0.2f),
+                                text = match.date.format("HH:mm"),
+                                style = MaterialTheme.typography.titleLarge.copy(
+                                    fontSize = 28.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center
+                                )
+                            )
+                        }
                     }
+
                 }
 
                 AnimatedContent(loading) { loading ->

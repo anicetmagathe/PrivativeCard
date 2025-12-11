@@ -8,6 +8,7 @@ import android.graphics.Paint
 import androidx.annotation.RawRes
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,14 +17,13 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import core.async.Dispatcher
 import core.async.InDispatchers
-import core.common.BarcodeFormat
 import core.common.ReceiptBuilder
 import core.common.format
-import core.common.generateBarcodeBitmap
 import core.common.takeOrEmpty
 import core.common.upperCaseFirst
 import core.data.demo.DemoCategorie
@@ -32,10 +32,13 @@ import core.designsystem.R
 import core.designsystem.theme.AppTheme
 import core.model.entity.Categorie
 import core.model.entity.Match
+import core.ui.DevicePreviews
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import mg.moneytech.privatecard.R.*
+import mg.moneytech.privatecard.R.string
+import mg.moneytech.privatecard.provider.CategoriePreviewParameterProvider
+import mg.moneytech.privatecard.provider.MatchPreviewParameterProvider
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -59,7 +62,7 @@ class ReceiptFormater @Inject constructor(
         }
 }
 
-private fun buildTicket(
+fun buildTicket(
     context: Context,
     match: Match,
     categorie: Categorie,
@@ -68,7 +71,14 @@ private fun buildTicket(
 ): Bitmap {
     val ticketDateTime = LocalDateTime.now()
     val s = { id: Int ->
-        context.getString(id)
+        when (id) {
+            string.game -> "Match"
+            string.stadium -> "Stadium"
+            string.unit_price -> "Unit Price"
+            string.count -> "Quantity"
+            string.total -> "TOTAL"
+            else -> "Label"
+        }
     }
 
     return ReceiptBuilder(size)
@@ -100,11 +110,12 @@ private fun buildTicket(
             match.date.format("EEEE dd MMMM").upperCaseFirst(), false
         )
         .setAlign(Paint.Align.RIGHT)
-        .setTypeface(context, "fonts/roboto_bold.ttf")
         .addText(
             match.date.format("HH'h'mm")
         )
+        .setTypeface(context, "fonts/roboto_bold.ttf")
         .setAlign(Paint.Align.CENTER)
+        .addText(s(string.stadium))
         .setTypeface(context, "fonts/roboto_bold.ttf")
         .addText(match.stadium.name)
         .addParagraph()
@@ -193,10 +204,11 @@ fun getBitmapFromRawForPrinter(
 
 @Preview
 @Composable
-private fun ReceiptPreview() {
+private fun ReceiptPreview(
+) {
     AppTheme {
         val context = LocalContext.current
-        var bitmap by remember {
+        var bitmap: Bitmap? by remember {
             mutableStateOf(
                 buildTicket(
                     context = context,
@@ -207,9 +219,13 @@ private fun ReceiptPreview() {
             )
         }
 
-        Image(
-            painter = BitmapPainter(bitmap.asImageBitmap()),
-            contentDescription = null,
-        )
+        bitmap?.let {
+            Image(
+                painter = BitmapPainter(
+                    it.asImageBitmap()
+                ),
+                contentDescription = null,
+            )
+        }
     }
 }

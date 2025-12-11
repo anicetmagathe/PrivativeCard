@@ -7,5 +7,6 @@
     <string name="total_price">Prix Total</string>
     <string name="total">Total</string>
     <string name="game">Match</string>
+    <string name="stadium">Stade</string>
     <string name="pay">PAYER</string>
 </resources>
