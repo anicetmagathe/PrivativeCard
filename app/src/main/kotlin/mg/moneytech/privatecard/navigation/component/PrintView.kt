@@ -73,7 +73,7 @@ fun PrintView(modifier: Modifier = Modifier, painter: Painter, onHide: () -> Uni
                         .align(Alignment.BottomCenter)
                 ) {
                     DefaultButton(
-                        label = "OK",
+                        label = "FERMER",
                         onClick = onHide,
                         modifier = Modifier
                             .onSizeChanged {

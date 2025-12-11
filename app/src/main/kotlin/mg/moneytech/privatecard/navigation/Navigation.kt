@@ -40,17 +40,16 @@ fun Navigation(
                 )
             }
         }
-    }
 
-    if (state.showLatestTicket) {
-        state.receiptImage?.let {
-            UndismissableDialog {
-                PrintView(
-                    painter = BitmapPainter(it.asImageBitmap()),
-                    onHide = viewModel::hideReceipt
-                )
+        if (state.showLatestTicket) {
+            state.receiptImage?.let {
+                UndismissableDialog {
+                    PrintView(
+                        painter = BitmapPainter(it.asImageBitmap()),
+                        onHide = viewModel::hideReceipt
+                    )
+                }
             }
         }
-
     }
 }

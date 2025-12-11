@@ -89,7 +89,7 @@ private fun buildTicket(
         .addParagraph()
         .addParagraph()
         .setAlign(Paint.Align.CENTER)
-        .addText("MATCHS", false)
+        .addText("MATCH", false)
         .addLine(lineChar = '=')
         .setAlign(Paint.Align.LEFT)
         .addText(
@@ -124,7 +124,6 @@ private fun buildTicket(
         .setAlign(Paint.Align.RIGHT)
         .addText("x $count")
         .setAlign(Paint.Align.LEFT)
-//        .addLine(lineChar = '=')
         .addParagraph()
         .setAlign(Paint.Align.LEFT)
         .setTextSize(120f)
