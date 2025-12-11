@@ -77,7 +77,6 @@ private fun buildTicket(
         .setColor(Color.BLACK)
         .setTextSize(80f)
         .addImage(getBitmapFromRawForPrinter(context, R.raw.logo, dpi = 420))
-//        .addImage(getBitmapFromRawForPrinter(context, R.raw.soccer_logo, dpi = 840))
         .setTypeface(context, "fonts/roboto_regular.ttf")
         .setAlign(Paint.Align.CENTER)
         .addText(
