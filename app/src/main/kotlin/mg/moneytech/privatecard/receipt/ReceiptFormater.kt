@@ -8,7 +8,6 @@ import android.graphics.Paint
 import androidx.annotation.RawRes
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,7 +16,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import core.async.Dispatcher
@@ -32,13 +30,10 @@ import core.designsystem.R
 import core.designsystem.theme.AppTheme
 import core.model.entity.Categorie
 import core.model.entity.Match
-import core.ui.DevicePreviews
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import mg.moneytech.privatecard.R.string
-import mg.moneytech.privatecard.provider.CategoriePreviewParameterProvider
-import mg.moneytech.privatecard.provider.MatchPreviewParameterProvider
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -73,7 +68,7 @@ fun buildTicket(
     val s = { id: Int ->
         when (id) {
             string.game -> "Match"
-            string.stadium -> "Stadium"
+            string.stadium -> "Stade"
             string.unit_price -> "Unit Price"
             string.count -> "Quantity"
             string.total -> "TOTAL"
@@ -114,7 +109,9 @@ fun buildTicket(
             match.date.format("HH'h'mm")
         )
         .setTypeface(context, "fonts/roboto_bold.ttf")
+        .addParagraph()
         .setAlign(Paint.Align.CENTER)
+        .setTypeface(context, "fonts/roboto_regular.ttf")
         .addText(s(string.stadium))
         .setTypeface(context, "fonts/roboto_bold.ttf")
         .addText(match.stadium.name)
