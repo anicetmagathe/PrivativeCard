@@ -48,6 +48,7 @@ data class HomeState(
     val buyPage: BuyPage = BuyPage.Categorie,
     val seatInput: String = "",
     val priceTotal: Double = 0.0,
+    val ready: Boolean = false,
     val showConfirmation: Boolean = false,
     val loading: Loading = Loading.Ready,
     val ticket: Bitmap? = null,
@@ -96,13 +97,14 @@ class HomeViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 seatInput = "$seatInput",
+                                ready = true,
                                 priceTotal = getPrice(seatInput)
                             )
                         }
                     },
                     onFailure = {
                         _state.update {
-                            it.copy(seatInput = value, priceTotal = 0.0)
+                            it.copy(seatInput = value, priceTotal = 0.0, ready = false)
                         }
                     }
                 )
@@ -149,7 +151,7 @@ class HomeViewModel @Inject constructor(
 
     fun incrementSeatInput() {
         _state.update {
-            val currentSeatCount = it.seatInput.toLongOrNull() ?: 0
+            val currentSeatCount = it.seatInput.toLongOrNull() ?: minSeatCount
 
             val seatCount = if (currentSeatCount < maxSeatCount) {
                 currentSeatCount + 1
@@ -167,7 +169,7 @@ class HomeViewModel @Inject constructor(
     fun decrementSeatInput() {
         _state.update {
             val seatCount =
-                if (it.seatInput.isEmpty()) 0 else (it.seatInput.toLong() - 1).coerceAtLeast(
+                if (it.seatInput.isEmpty()) minSeatCount else (it.seatInput.toLong() - 1).coerceAtLeast(
                     1
                 )
 

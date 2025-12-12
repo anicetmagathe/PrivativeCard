@@ -144,6 +144,7 @@ fun SeatInputView(
                 .fillMaxWidth()
                 .height(56.dp),
             onClick = onConfirm,
+            enabled = seatCount.isNotEmpty(),
             label = stringResource(R.string.pay),
             containerColor = Color(localTheme.foregroundColor),
             contentColor = Color(localTheme.backgroundColor),

@@ -21,6 +21,7 @@ fun DefaultButton(
     modifier: Modifier = Modifier,
     label: String,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary
 ) {
@@ -30,6 +31,7 @@ fun DefaultButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
+            enabled = enabled,
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor,
