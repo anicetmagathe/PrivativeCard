@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -39,6 +41,7 @@ import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Match
 import core.ui.DevicePreviews
+import mg.moneytech.privatecard.R
 import mg.moneytech.privatecard.navigation.component.ConfirmationView
 import mg.moneytech.privatecard.navigation.component.NoDismissDialog
 import mg.moneytech.privatecard.navigation.component.PickedMatchHeaderView
@@ -116,7 +119,8 @@ fun SectorPickPage(
                 loading = state.loading,
                 match = state.matchs[state.selectedMatch],
                 message = buildAnnotatedString {
-                    append("Confirmer d'achat de ")
+                    val seatCount = state.seatInput.toInt()
+                    append(stringResource(R.string.confirm_buy_of))
 
                     withStyle(
                         SpanStyle(
@@ -124,16 +128,16 @@ fun SectorPickPage(
                             fontWeight = FontWeight.SemiBold
                         )
                     ) {
-                        append("${state.seatInput.toLong()}")
+                        append(" $seatCount ")
                     }
 
-                    append(" place(s) ")
+                    append("${pluralStringResource(R.plurals.n_place, seatCount)} ")
 
                     withStyle(SpanStyle(color = Color(localTheme.foregroundColor))) {
                         append(match.categories[state.selectedCategorie].name)
                     }
 
-                    append(" pour ")
+                    append(" ${stringResource(R.string.for_price)} ")
 
                     withStyle(
                         SpanStyle(
@@ -145,7 +149,7 @@ fun SectorPickPage(
                         append("${state.priceTotal.format()}${state.matchs[state.selectedMatch].categories[state.selectedCategorie].currency.name.takeOrEmpty()}")
                     }
 
-                    append(" ?")
+                    append(" ${stringResource(R.string.question_mark)}")
                 },
                 onConfirm = viewModel::confirm,
                 onCancel = viewModel::cancel

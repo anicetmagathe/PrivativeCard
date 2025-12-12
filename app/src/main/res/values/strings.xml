@@ -9,4 +9,11 @@
     <string name="game">Match</string>
     <string name="stadium">Stade</string>
     <string name="pay">PAYER</string>
+    <string name="confirm_buy_of">Confirmer d\'achat de</string>
+    <plurals name="n_place">
+        <item quantity="one">place</item>
+        <item quantity="other">places</item>
+    </plurals>
+    <string name="for_price">pour</string>
+    <string name="question_mark">\?</string>
 </resources>
