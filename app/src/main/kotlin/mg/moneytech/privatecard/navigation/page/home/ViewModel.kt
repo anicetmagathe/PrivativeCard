@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.domain.ValidateSeatCountUseCase
@@ -49,7 +48,6 @@ data class HomeState(
     val buyPage: BuyPage = BuyPage.Categorie,
     val seatInput: String = "",
     val priceTotal: Double = 0.0,
-    val ready: Boolean = false,
     val showConfirmation: Boolean = false,
     val loading: Loading = Loading.Ready,
     val ticket: Bitmap? = null,
@@ -73,7 +71,8 @@ class HomeViewModel @Inject constructor(
         )
     val state = _state.asStateFlow()
 
-    val maxSeatCount = 999L
+    private val maxSeatCount = 999L
+    private val minSeatCount = 1L
 
 
     fun hideError() {
@@ -88,20 +87,22 @@ class HomeViewModel @Inject constructor(
                 validateSeatCount(value).fold(
                     onSuccess = {
                         val seatInput = value.toLong()
-                        val ready = seatInput <= maxSeatCount
-                        val seatCount = if (ready) seatInput else state.value.seatInput.toLong()
+                        val inRange = seatInput in minSeatCount..maxSeatCount
+
+                        if (!inRange) {
+                            return@fold
+                        }
 
                         _state.update {
                             it.copy(
-                                seatInput = "$seatCount",
-                                ready = ready,
-                                priceTotal = getPrice(seatCount)
+                                seatInput = "$seatInput",
+                                priceTotal = getPrice(seatInput)
                             )
                         }
                     },
                     onFailure = {
                         _state.update {
-                            it.copy(seatInput = value, ready = false, priceTotal = 0.0)
+                            it.copy(seatInput = value, priceTotal = 0.0)
                         }
                     }
                 )
@@ -185,8 +186,7 @@ class HomeViewModel @Inject constructor(
                 selectedCategorie = index,
                 buyPage = BuyPage.Count,
                 seatInput = "$seatCount",
-                priceTotal = categorie.price * seatCount,
-                ready = true
+                priceTotal = categorie.price * seatCount
             )
         }
     }
@@ -199,13 +199,13 @@ class HomeViewModel @Inject constructor(
 
     fun showConfirm() {
         _state.update {
-            it.copy(showConfirmation = true, ready = false)
+            it.copy(showConfirmation = true)
         }
     }
 
     fun cancel() {
         _state.update {
-            it.copy(showConfirmation = false, ready = true)
+            it.copy(showConfirmation = false)
         }
     }
 
@@ -233,7 +233,6 @@ class HomeViewModel @Inject constructor(
                         it.copy(
                             buyPage = BuyPage.Categorie,
                             showConfirmation = false,
-                            ready = false,
                             loading = Loading.Ready
                         )
                     }
