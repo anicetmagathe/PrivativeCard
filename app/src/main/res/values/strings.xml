@@ -10,7 +10,7 @@
     <string name="stadium">Stade</string>
     <string name="categorie">Catégorie</string>
     <string name="pay">PAYER</string>
-    <string name="confirm_buy_of">Confirmer d\'achat de</string>
+    <string name="confirm_buy_of">Confirmer l\'achat de</string>
     <plurals name="n_place">
         <item quantity="one">place</item>
         <item quantity="other">places</item>
