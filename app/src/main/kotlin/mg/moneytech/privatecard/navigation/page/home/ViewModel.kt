@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
         )
     val state = _state.asStateFlow()
 
-    private val maxSeatCount = 999L
+    private val maxSeatCount = 999999999L
     private val minSeatCount = 1L
 
 
