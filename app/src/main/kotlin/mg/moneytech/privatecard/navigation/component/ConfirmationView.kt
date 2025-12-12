@@ -123,7 +123,7 @@ fun ConfirmationView(
 
                                     DefaultButton(
                                         modifier = Modifier.fillMaxWidth(),
-                                        label = "ANNULER",
+                                        label = "Annuler",
                                         onClick = onCancel,
                                         containerColor = Color.Yellow.copy(alpha = 0.6f),
                                         contentColor = Color.Black
@@ -131,7 +131,7 @@ fun ConfirmationView(
 
                                     DefaultButton(
                                         modifier = Modifier.fillMaxWidth(),
-                                        label = "CONFIRMER L'ACHAT",
+                                        label = "Confirmer l’achat",
                                         onClick = onConfirm,
                                         containerColor = Color(localTheme.foregroundColor),
                                         contentColor = Color(localTheme.backgroundColor)

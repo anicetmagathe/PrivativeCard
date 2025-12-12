@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PrivateCard</string>
-    <string name="buy_ticket">ACHETER TICKET</string>
+    <string name="buy_ticket">Acheter ticket</string>
     <string name="next_match">Prochain Matchs</string>
     <string name="unit_price">Prix Unitaire</string>
     <string name="count">Nombre</string>
@@ -9,8 +9,8 @@
     <string name="game">Match</string>
     <string name="stadium">Stade</string>
     <string name="categorie">Catégorie</string>
-    <string name="pay">PAYER</string>
-    <string name="confirm_buy_of">Confirmer l\'achat de</string>
+    <string name="pay">Payer</string>
+    <string name="confirm_buy_of">Confirmer l\’achat de</string>
     <plurals name="n_place">
         <item quantity="one">place</item>
         <item quantity="other">places</item>
