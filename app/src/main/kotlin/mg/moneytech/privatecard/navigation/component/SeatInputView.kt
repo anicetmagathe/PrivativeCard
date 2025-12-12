@@ -70,18 +70,7 @@ fun SeatInputView(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Card(
-                        onClick = onBack,
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.LightGray.copy(alpha = 0.7f),
-                            contentColor = Color.Black
-                        ),
-                        shape = CircleShape
-                    ) {
-                        Box(modifier = Modifier.padding(8.dp)) {
-                            Icon(imageVector = PCIcons.arrowRight, contentDescription = null)
-                        }
-                    }
+                    NavButton(imageVector = PCIcons.arrowRight, onClick = onBack)
 
                     Column(
                         modifier = Modifier.weight(1f),

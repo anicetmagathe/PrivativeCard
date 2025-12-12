@@ -88,17 +88,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
             )
         }
 
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = Color.LightGray.copy(alpha = 0.4f),
-                contentColor = Color.Black
-            ),
-            shape = CircleShape
-        ) {
-            Box(modifier = Modifier.padding(8.dp)) {
-                Icon(imageVector = PCIcons.arrowLeft, contentDescription = null)
-            }
-        }
+        NavButton(imageVector = PCIcons.arrowLeft, onClick = {})
     }
 }
 

@@ -1,19 +1,18 @@
 package mg.moneytech.privatecard.navigation.page.home
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetValue
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,13 +20,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -36,7 +32,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import core.common.format
 import core.common.takeOrEmpty
 import core.data.demo.DemoMatch
-import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Match
@@ -58,23 +53,27 @@ fun SectorPickPage(
     val localTheme = LocalAppTheme.current
     val state by viewModel.state.collectAsState()
 
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            initialValue = SheetValue.Expanded,
-            confirmValueChange = { true },
-            skipHiddenState = true
-        )
-    )
-
     val match by remember(state) { mutableStateOf(state.matchs[state.selectedMatch]) }
 
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = innerPadding.calculateTopPadding() + 8.dp, start = 8.dp, end = 8.dp)
+        ) {
+            PickedMatchHeaderView(match = match, onBack = onBack)
+        }
 
-    BottomSheetScaffold(
-        modifier = modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-        scaffoldState = scaffoldState,
-        sheetPeekHeight = 100.dp,
-        sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp),
-        sheetContent = {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(
+                topStart = 16.dp,
+                topEnd = 16.dp,
+                bottomStart = 0.dp,
+                bottomEnd = 0.dp
+            ),
+            colors = CardDefaults.cardColors(containerColor = Color(localTheme.backgroundColor))
+        ) {
             AnimatedContent(
                 targetState = state.buyPage,
             ) {
@@ -102,15 +101,9 @@ fun SectorPickPage(
                     }
                 }
             }
-        },
-        sheetDragHandle = null
-    ) { _ ->
-        PickPage(
-            modifier = Modifier.fillMaxSize(),
-            innerPadding = innerPadding,
-            match = state.matchs[state.selectedMatch],
-            onBack = onBack
-        )
+        }
+
+
     }
 
     if (state.showConfirmation) {
@@ -165,14 +158,9 @@ fun PickPage(
     match: Match,
     onBack: () -> Unit
 ) {
+    val localTheme = LocalAppTheme.current
     Box(modifier = modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
-        Image(
-            painter = painterResource(PCIcons.stadium),
-            contentDescription = null,
-            contentScale = ContentScale.FillHeight,
-            modifier = Modifier.fillMaxHeight()
-        )
-
+        Surface(color = Color(localTheme.backgroundColor), modifier = Modifier.fillMaxSize()) { }
 
         Box(
             modifier = Modifier

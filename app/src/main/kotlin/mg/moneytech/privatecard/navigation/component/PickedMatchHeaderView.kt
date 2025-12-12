@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -19,12 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
@@ -38,27 +34,18 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
     Card(
         modifier = modifier.alpha(0.95f), shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
-            contentColor = Color.Black
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
+            containerColor = Color.Black,
+            contentColor = Color.White
         )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Card(
+                NavButton(
+                    imageVector = PCIcons.arrowRight,
                     onClick = onBack,
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.LightGray.copy(alpha = 0.7f),
-                        contentColor = Color.Black
-                    ),
-                    shape = CircleShape
-                ) {
-                    Box(modifier = Modifier.padding(8.dp)) {
-                        Icon(imageVector = PCIcons.arrowRight, contentDescription = null)
-                    }
-                }
+                    containerColor = Color.DarkGray.copy(alpha = 0.2f),
+                    contentColor = Color.White
+                )
 
                 Column(
                     modifier = Modifier.weight(1f),
@@ -73,37 +60,20 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
 
                 }
 
-                Card(
-                    onClick = {},
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.LightGray.copy(alpha = 0.4f),
-                        contentColor = Color.Black
-                    ),
-                    shape = CircleShape
-                ) {
-                    Box(modifier = Modifier.padding(8.dp)) {
-                        Icon(imageVector = PCIcons.info, contentDescription = null)
-                    }
-                }
-
+                NavButton(
+                    imageVector = PCIcons.info,
+                    onClick = onBack,
+                    containerColor = Color.DarkGray.copy(alpha = 0.2f),
+                    contentColor = Color.White
+                )
             }
 
             ClubVsView(modifier = Modifier.fillMaxWidth(), match = match) {
-                /*Text(
-                    modifier = Modifier.weight(0.2f),
-                    text = match.date.format("HH:mm"),
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                )
-*/
                 Card(
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.Black,
-                        contentColor = Color.White
+                        containerColor = Color.White,
+                        contentColor = Color.Black
                     )
                 ) {
                     Box(
