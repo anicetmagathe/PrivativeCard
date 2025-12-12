@@ -48,7 +48,7 @@ class MatchRepositoryImpl @Inject constructor(
                     club2 = match.club2.copy(
                         logoUrl = match.club2.logoUrl
                     ),
-                    categories = List(10) { categories }.flatten()
+                    categories = categories
                 )
             }
             _matches.value = matches
