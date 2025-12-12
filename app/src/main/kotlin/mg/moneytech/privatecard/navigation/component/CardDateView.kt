@@ -52,6 +52,7 @@ fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
                 ) {
                     Text(
                         text = dateTime.format("MMM").replace(".", "").take(3).uppercase(),
+                        maxLines = 1,
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
@@ -72,6 +73,7 @@ fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
                 ) {
                     Text(
                         text = dateTime.format("dd"),
+                        maxLines = 1,
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
