@@ -43,7 +43,7 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                 NavButton(
                     imageVector = PCIcons.arrowRight,
                     onClick = onBack,
-                    containerColor = Color.DarkGray.copy(alpha = 0.2f),
+                    containerColor = Color.LightGray.copy(alpha = 0.2f),
                     contentColor = Color.White
                 )
 
@@ -63,7 +63,7 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                 NavButton(
                     imageVector = PCIcons.info,
                     onClick = onBack,
-                    containerColor = Color.DarkGray.copy(alpha = 0.2f),
+                    containerColor = Color.LightGray.copy(alpha = 0.2f),
                     contentColor = Color.White
                 )
             }
