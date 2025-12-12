@@ -31,6 +31,15 @@ class MatchRepositoryImpl @Inject constructor(
 
             val matches = result.matches.map { it.asExternal() }.map { match ->
                 var categorieIndex = 0
+                val categories = match.categories.map {
+                    val currentCategorieIndex =
+                        if (categorieIndex < DemoCategorie.categories.size) {
+                            categorieIndex++
+                        } else {
+                            0
+                        }
+                    it.copy(id = DemoCategorie.categories[currentCategorieIndex].id)
+                }
 
                 match.copy(
                     club1 = match.club1.copy(
@@ -39,15 +48,7 @@ class MatchRepositoryImpl @Inject constructor(
                     club2 = match.club2.copy(
                         logoUrl = match.club2.logoUrl
                     ),
-                    categories = match.categories.map {
-                        val currentCategorieIndex =
-                            if (categorieIndex < DemoCategorie.categories.size) {
-                                categorieIndex++
-                            } else {
-                                0
-                            }
-                        it.copy(id = DemoCategorie.categories[currentCategorieIndex].id)
-                    }
+                    categories = List(10) { categories }.flatten()
                 )
             }
             _matches.value = matches

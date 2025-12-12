@@ -1,6 +1,7 @@
 package mg.moneytech.privatecard.navigation.page.home
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +56,12 @@ fun SectorPickPage(
 
     val match by remember(state) { mutableStateOf(state.matchs[state.selectedMatch]) }
 
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(
+        modifier = Modifier
+            .background(color = Color(localTheme.backgroundColor))
+            .padding(bottom = innerPadding.calculateBottomPadding()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,7 +78,7 @@ fun SectorPickPage(
                 bottomStart = 0.dp,
                 bottomEnd = 0.dp
             ),
-            colors = CardDefaults.cardColors(containerColor = Color(localTheme.backgroundColor))
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             AnimatedContent(
                 targetState = state.buyPage,
