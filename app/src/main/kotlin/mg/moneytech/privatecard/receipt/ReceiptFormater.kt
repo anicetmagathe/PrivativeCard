@@ -52,6 +52,7 @@ class ReceiptFormater @Inject constructor(
                 match = match,
                 categorie = categorie,
                 count = count,
+                s = { context.getString(it) },
                 size = 1200
             )
         }
@@ -62,19 +63,10 @@ fun buildTicket(
     match: Match,
     categorie: Categorie,
     count: Long,
+    s: (Int) -> String,
     size: Int = 1200
 ): Bitmap {
     val ticketDateTime = LocalDateTime.now()
-    val s = { id: Int ->
-        when (id) {
-            string.game -> "Match"
-            string.stadium -> "Stade"
-            string.unit_price -> "Unit Price"
-            string.count -> "Quantity"
-            string.total -> "TOTAL"
-            else -> "Label"
-        }
-    }
 
     return ReceiptBuilder(size)
         .setMargin(30, 20)
@@ -204,6 +196,17 @@ fun getBitmapFromRawForPrinter(
 private fun ReceiptPreview(
 ) {
     AppTheme {
+        val s = { id: Int ->
+            when (id) {
+                string.game -> "Match"
+                string.stadium -> "Stade"
+                string.unit_price -> "Prix Unitaire"
+                string.count -> "Nombre"
+                string.total -> "Total"
+                else -> "Label"
+            }
+        }
+
         val context = LocalContext.current
         var bitmap: Bitmap? by remember {
             mutableStateOf(
@@ -211,6 +214,7 @@ private fun ReceiptPreview(
                     context = context,
                     match = DemoMatch.matchs[0],
                     categorie = DemoCategorie.categories[0],
+                    s = s,
                     count = 12
                 )
             )
