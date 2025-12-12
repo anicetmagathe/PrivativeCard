@@ -3,6 +3,7 @@ package mg.moneytech.privatecard.navigation.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,11 +30,11 @@ import java.time.LocalDateTime
 fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
 
     Surface(
-        modifier = modifier.width(40.dp),
+        modifier = modifier/*.width(40.dp)*/,
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(width = 1.dp, color = Color.Black)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.width(IntrinsicSize.Max)) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -50,7 +51,7 @@ fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = dateTime.format("MMM").replace(".", "").take(3).upperCaseFirst(),
+                        text = dateTime.format("MMM").replace(".", "").take(3).uppercase(),
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
