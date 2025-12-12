@@ -207,7 +207,7 @@ private fun ReceiptPreview(
                 string.unit_price -> "Prix Unitaire"
                 string.count -> "Nombre"
                 string.total -> "Total"
-                string.categorie -> "Categorie"
+                string.categorie -> "Catégorie"
                 else -> "Label"
             }
         }
