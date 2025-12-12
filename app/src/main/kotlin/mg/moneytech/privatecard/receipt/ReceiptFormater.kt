@@ -121,6 +121,10 @@ fun buildTicket(
         .addParagraph()
         .addParagraph()
         .setAlign(Paint.Align.LEFT)
+        .addText(s(string.categorie), false)
+        .setAlign(Paint.Align.RIGHT)
+        .addText(categorie.name)
+        .setAlign(Paint.Align.LEFT)
         .addText(s(string.unit_price), false)
         .setAlign(Paint.Align.RIGHT)
         .addText("${categorie.price.format()}${categorie.currency.name.takeOrEmpty()}")
@@ -203,6 +207,7 @@ private fun ReceiptPreview(
                 string.unit_price -> "Prix Unitaire"
                 string.count -> "Nombre"
                 string.total -> "Total"
+                string.categorie -> "Categorie"
                 else -> "Label"
             }
         }
