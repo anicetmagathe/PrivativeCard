@@ -145,7 +145,7 @@ fun SectorPickPage(
                             fontSize = 30.sp
                         )
                     ) {
-                        append("${state.priceTotal.format()}${state.matchs[state.selectedMatch].categories[state.selectedCategorie].currency.name.takeOrEmpty()}")
+                        append("\n${state.priceTotal.format()}${state.matchs[state.selectedMatch].categories[state.selectedCategorie].currency.name.takeOrEmpty()}")
                     }
 
                     append(" ${stringResource(R.string.question_mark)}")
