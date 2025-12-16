@@ -125,8 +125,8 @@ fun ConfirmationView(
                                         modifier = Modifier.fillMaxWidth(),
                                         label = "Annuler",
                                         onClick = onCancel,
-                                        containerColor = Color.Yellow.copy(alpha = 0.6f),
-                                        contentColor = Color.Black
+                                        containerColor = Color.Red,
+                                        contentColor = Color.White
                                     )
 
                                     DefaultButton(

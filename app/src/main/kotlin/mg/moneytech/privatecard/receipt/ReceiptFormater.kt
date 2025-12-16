@@ -81,7 +81,7 @@ fun buildTicket(
         )
         .setAlign(Paint.Align.CENTER)
         .addText(
-            ticketDateTime.format("HH'h'mm'm'ss's'")
+            ticketDateTime.format("HH':'mm':'ss")
         )
         .setAlign(Paint.Align.LEFT)
         .addText("Terminal", false)
@@ -98,7 +98,7 @@ fun buildTicket(
         )
         .setAlign(Paint.Align.RIGHT)
         .addText(
-            match.date.format("HH'h'mm")
+            match.date.format("HH':'mm")
         )
         .setTypeface(context, "fonts/roboto_bold.ttf")
         .addParagraph()

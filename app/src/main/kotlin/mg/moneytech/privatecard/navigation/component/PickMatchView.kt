@@ -62,18 +62,15 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
                     )
                     Text(
-                        text = buildAnnotatedString {
-                            append("${match.description} • ")
-                            withStyle(
-                                SpanStyle(
-                                    color = Color.DarkGray,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                            ) {
-                                append(match.stadium.name)
-                            }
-                        },
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal)
+                        text = match.description,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = match.stadium.name,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            color = Color.DarkGray,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
                 }
 
