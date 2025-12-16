@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,16 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.common.format
 import core.common.upperCaseFirst
 import core.data.demo.DemoMatch
+import core.designsystem.component.PCIcons
 import core.designsystem.theme.AppTheme
 import core.designsystem.theme.LocalAppTheme
 import core.model.entity.Match
@@ -65,13 +65,26 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                         text = match.description,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    Text(
-                        text = match.stadium.name,
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            color = Color.DarkGray,
-                            fontWeight = FontWeight.SemiBold
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = PCIcons.location,
+                            contentDescription = null,
+                            tint = Color.DarkGray,
+                            modifier = Modifier.size(14.dp)
                         )
-                    )
+                        Text(
+                            text = match.stadium.name,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                color = Color.DarkGray,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        )
+                    }
+
                 }
 
             }
