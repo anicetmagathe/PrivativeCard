@@ -74,7 +74,7 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                             imageVector = PCIcons.location,
                             contentDescription = null,
                             tint = Color.DarkGray,
-                            modifier = Modifier.size(14.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                         Text(
                             text = match.stadium.name,

@@ -21,8 +21,6 @@ object PCIcons {
 
     val check = Icons.Outlined.CheckCircle
     val stadiumSeat = R.drawable.seat_category
-    val stadiumSeat2 = R.drawable.seat_category2
-    val stadiumSeat3 = R.drawable.seat_category3
 }
 
 

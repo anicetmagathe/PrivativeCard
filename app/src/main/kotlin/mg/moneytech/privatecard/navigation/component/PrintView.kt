@@ -94,7 +94,7 @@ private fun PrintViewPreview() {
     AppTheme {
         PrintView(
             modifier = Modifier.fillMaxSize(),
-            painter = painterResource(R.drawable.seat_category2)
+            painter = painterResource(R.drawable.seat_category)
         )
     }
 }

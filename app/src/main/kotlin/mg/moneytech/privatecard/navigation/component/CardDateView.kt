@@ -30,7 +30,7 @@ import java.time.LocalDateTime
 fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
 
     Surface(
-        modifier = modifier/*.width(40.dp)*/,
+        modifier = modifier,
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(width = 1.dp, color = Color.Black)
     ) {
@@ -53,7 +53,7 @@ fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
                     Text(
                         text = dateTime.format("MMM").replace(".", "").take(3).uppercase(),
                         maxLines = 1,
-                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
             }
@@ -74,7 +74,7 @@ fun CardDateView(modifier: Modifier = Modifier, dateTime: LocalDateTime) {
                     Text(
                         text = dateTime.format("dd"),
                         maxLines = 1,
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
             }
