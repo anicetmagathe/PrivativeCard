@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.get
 
 // Domain Model - represents what can be drawn
 sealed interface ReceiptElement {
@@ -233,7 +234,7 @@ class ReceiptBuilder(private val width: Int) {
     }
 
     private fun getHeight(): Int {
-        var height = 5 + marginTop + marginBottom
+        var height = /*5 + */marginTop + marginBottom
         for (item in listItems) {
             height += item.getHeight()
         }
@@ -263,7 +264,7 @@ class ReceiptBuilder(private val width: Int) {
 
                 // Find next item(s) on the same line
                 var j = i + 1
-                while (j < listItems.size && listItems[j] is TextElement && !listItems[j-1].let { it is TextElement && it.newLine }) {
+                while (j < listItems.size && listItems[j] is TextElement && !listItems[j - 1].let { it is TextElement && it.newLine }) {
                     val nextItem = listItems[j] as TextElement
                     val nextX = when (nextItem.align) {
                         Paint.Align.CENTER -> contentWidth / 2f
@@ -310,12 +311,34 @@ class ReceiptBuilder(private val width: Int) {
         return image
     }
 
+    private fun trimBottom(bitmap: Bitmap): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        var lastNonEmptyRow = -1
+
+        for (y in height - 1 downTo 0) {
+            for (x in 0 until width) {
+                if (bitmap[x, y] != backgroundColor) {
+                    lastNonEmptyRow = y
+                    break
+                }
+            }
+            if (lastNonEmptyRow != -1) break
+        }
+
+        return if (lastNonEmptyRow == -1) {
+            bitmap
+        } else {
+            Bitmap.createBitmap(bitmap, 0, 0, width, lastNonEmptyRow + 1)
+        }
+    }
+
     fun build(): Bitmap {
         val image = createBitmap(width, getHeight())
         val canvas = Canvas(image)
         val paint = Paint()
         canvas.drawColor(backgroundColor)
         canvas.drawBitmap(drawImage(), marginLeft.toFloat(), 0f, paint)
-        return image
+        return trimBottom(image)
     }
 }
