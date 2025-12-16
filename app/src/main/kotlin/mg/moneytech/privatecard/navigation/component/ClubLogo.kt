@@ -3,7 +3,6 @@ package mg.moneytech.privatecard.navigation.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -26,8 +25,7 @@ fun ClubLogo(modifier: Modifier = Modifier, club: Club) {
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.LightGray.copy(alpha = 0.2f)),
-            shape = CircleShape,
-//            elevation = CardDefaults.cardElevation(2.dp)
+            shape = CircleShape
         ) {
             Box(
                 modifier = Modifier
@@ -38,7 +36,7 @@ fun ClubLogo(modifier: Modifier = Modifier, club: Club) {
                     model = club.logoUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.size(80.dp)
                 )
             }
         }
