@@ -26,32 +26,23 @@ fun LoadableImage(
         model = model,
         contentDescription = contentDescription,
         contentScale = contentScale,
-        modifier = modifier
-    ) {
-        val state by painter.state.collectAsState()
-
-        when (state) {
-            AsyncImagePainter.State.Empty -> {
-                Card(
-                    modifier = Modifier.fillMaxSize(),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.LightGray)
-                ) { }
-            }
-
-            is AsyncImagePainter.State.Error -> Card(
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(8.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.LightGray)
-            ) { }
-
-            is AsyncImagePainter.State.Loading -> Card(
+        modifier = modifier,
+        loading = {
+            Card(
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.LightGray)
             ) { }
-
-            is AsyncImagePainter.State.Success -> SubcomposeAsyncImageContent()
+        },
+        error = {
+            Card(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(8.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.LightGray)
+            ) { }
+        },
+        success = {
+            SubcomposeAsyncImageContent()
         }
-    }
+    )
 }

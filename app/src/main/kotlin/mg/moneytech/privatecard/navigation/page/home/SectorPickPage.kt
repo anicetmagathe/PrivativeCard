@@ -147,8 +147,6 @@ fun SectorPickPage(
                     ) {
                         append("\n${state.priceTotal.format()}${state.matchs[state.selectedMatch].categories[state.selectedCategorie].currency.name.takeOrEmpty()}")
                     }
-
-                    append(" ${stringResource(R.string.question_mark)}")
                 },
                 onConfirm = viewModel::confirm,
                 onCancel = viewModel::cancel

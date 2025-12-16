@@ -70,9 +70,9 @@ fun CategoriePickView(
 
                 CategorieView(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onChooseCategorie(index) },
-                    categorie = categorie
+                        .fillMaxWidth(),
+                    categorie = categorie,
+                    onClick = { onChooseCategorie(index) }
                 )
 
                 if (index != categories.lastIndex) {

@@ -1,6 +1,7 @@
 package mg.moneytech.privatecard.navigation.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,12 +42,14 @@ import core.ui.DevicePreviews
 import mg.moneytech.privatecard.navigation.logoForCategorie
 
 @Composable
-fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
+fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie, onClick: () -> Unit) {
     val localTheme = LocalAppTheme.current
     val logo by remember { mutableIntStateOf(logoForCategorie(categorie.id)) }
 
     Row(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -88,7 +91,7 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
             )
         }
 
-        NavButton(imageVector = PCIcons.arrowLeft, onClick = {})
+        NavButton(imageVector = PCIcons.arrowLeft, onClick = onClick)
     }
 }
 
@@ -96,6 +99,9 @@ fun CategorieView(modifier: Modifier = Modifier, categorie: Categorie) {
 @Composable
 private fun CategorieViewPreview() {
     AppTheme {
-        CategorieView(modifier = Modifier.fillMaxWidth(), categorie = DemoCategorie.categories[0])
+        CategorieView(
+            modifier = Modifier.fillMaxWidth(),
+            categorie = DemoCategorie.categories[0],
+            onClick = {})
     }
 }

@@ -39,7 +39,7 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
         )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 NavButton(
                     imageVector = PCIcons.arrowRight,
                     onClick = onBack,
@@ -47,24 +47,10 @@ fun PickedMatchHeaderView(modifier: Modifier = Modifier, match: Match, onBack: (
                     contentColor = Color.White
                 )
 
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = match.date.format("EEEE dd MMM")
-                            .upperCaseFirst() + match.date.format(" à kk:mm"),
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
-                    )
-
-                }
-
-                NavButton(
-                    imageVector = PCIcons.info,
-                    onClick = onBack,
-                    containerColor = Color.LightGray.copy(alpha = 0.2f),
-                    contentColor = Color.White
+                Text(
+                    text = match.date.format("EEEE dd MMM")
+                        .upperCaseFirst() + match.date.format(" à kk:mm"),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
                 )
             }
 

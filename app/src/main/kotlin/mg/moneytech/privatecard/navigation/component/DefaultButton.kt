@@ -1,5 +1,6 @@
 package mg.moneytech.privatecard.navigation.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +24,7 @@ fun DefaultButton(
     onClick: () -> Unit,
     enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.primary,
+    borderColor: Color = Color.LightGray.copy(alpha = 0.7f),
     contentColor: Color = MaterialTheme.colorScheme.onPrimary
 ) {
     Column(modifier = modifier) {
@@ -33,6 +35,7 @@ fun DefaultButton(
                 .height(56.dp),
             enabled = enabled,
             shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(width = 2.dp, color = borderColor),
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor,
                 contentColor = contentColor

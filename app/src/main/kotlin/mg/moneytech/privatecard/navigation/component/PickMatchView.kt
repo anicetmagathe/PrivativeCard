@@ -3,13 +3,10 @@ package mg.moneytech.privatecard.navigation.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +39,6 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
     Card(
         modifier = modifier,
         onClick = onClick,
-//        border = BorderStroke(width = 1.dp, color = Color.LightGray),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
@@ -95,24 +91,15 @@ fun PickMatchView(modifier: Modifier = Modifier, match: Match, onClick: () -> Un
                 )
             }
 
-
-
-            Button(
-                onClick = onClick,
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(localTheme.foregroundColor),
-                    contentColor = Color.White
-                ),
+            DefaultButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.buy_ticket),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
+                    .height(56.dp),
+                onClick = onClick,
+                label = stringResource(R.string.buy_ticket),
+                containerColor = Color(localTheme.foregroundColor),
+                contentColor = Color(localTheme.backgroundColor),
+            )
         }
     }
 }
